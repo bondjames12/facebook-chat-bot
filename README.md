@@ -6,6 +6,7 @@ Read the documentation on the Unoffical Facebook Chat API to learn about how to 
 
 ## Features
 -ChatGPT style bot that can be added to multiple groups with unique tracking
+
 -DALL·E 2 style image generation in facebook chat
 
 ## Installation
