@@ -21,10 +21,15 @@ To get started, clone the repository and install the dependencies.
 Create a .env file in the root directory and add your OpenAI API key.
 
 `FB_EMAIL=[your facebook email address]`
+
 `FB_PASSWORD=[your-facebook-password]`
+
 `OPENAI_API_KEY=[your-openai-api-key]`
+
 `BOT_NAME=[name]` - pick a name
+
 `STAY_ON_FOR=5` - defines how many messages a bot will reply to in a single cycle
+
 `COOLDOWN=10000`- defines the cooldown time for a bot sending replies during a cycle
 
 ## Usage
@@ -33,7 +38,9 @@ To start the bot, run:
 `node main.js`
 
 From within a Faceook chat window:
+
 `-pic [prompt]` creates and replies with an AI generated image
+
 `@[name]` tagging the bot account will trigger a cycle
 
 ## Dependencies
