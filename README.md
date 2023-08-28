@@ -20,7 +20,7 @@ To get started, clone the repository and install the dependencies.
 
 Create a .env file in the root directory and add your OpenAI API key.
 
-`FB_EMAIL=[your facebook email address]`
+`FB_EMAIL=[your-facebook-email-address]`
 
 `FB_PASSWORD=[your-facebook-password]`
 
