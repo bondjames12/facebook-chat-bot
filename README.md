@@ -18,8 +18,7 @@ To get started, clone the repository and install the dependencies.
 
 `npm install`
 
-
-Create a .env file in the root directory and add your OpenAI API key.
+### Create a .env file in the root directory.
 
 `FB_EMAIL=[your-facebook-email-address]`
 
