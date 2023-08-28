@@ -28,9 +28,9 @@ To get started, clone the repository and install the dependencies.
 
 `BOT_NAME=[name]` - pick a name
 
-`STAY_ON_FOR=5` - defines how many messages a bot will reply to in a single cycle
+`STAY_ON_FOR=5` - defines how many messages a bot will reply to in a single wake cycle
 
-`COOLDOWN=10000`- defines the cooldown time for a bot sending replies during a cycle
+`COOLDOWN=10000`- defines the cooldown time for a bot sending replies during a wake cycle
 
 ## Usage
 To start the bot, run:
@@ -41,7 +41,7 @@ From within a Faceook chat window:
 
 `-pic [prompt]` creates and replies with an AI generated image
 
-`@[name]` tagging the bot account will trigger a cycle
+`@[name]` tagging the bot account will trigger a wake cycle
 
 ## Dependencies
 
