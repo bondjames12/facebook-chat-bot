@@ -1,4 +1,5 @@
 const chatBot = require("./openAI.js");
+const calculate = require("./calculate.js");
 
 async function handleMessage(api, message) {
     switch (message.type) {
@@ -31,6 +32,12 @@ async function handleMessage(api, message) {
 
                 chatBot.getPicResponse(api, message.body.slice(4).trim(), message.threadID, message.messageID);
 
+            }
+
+            // calculator
+            if (message.body.slice(0,6).trim() == "-math"){
+                result = calculate(message.body.slice(5).trim());
+                api.sendMessage(result.toString(), message.threadID, message.messageID);
             }
 
         break;

@@ -9,6 +9,8 @@ Read the documentation on the Unoffical Facebook Chat API to learn about how to 
 
 -DALL·E 2 style image generation in Facebook chat
 
+-Simple calculator 
+
 ## Installation
 To get started, clone the repository and install the dependencies.
 
@@ -42,6 +44,8 @@ From within a Faceook chat window:
 `-pic [prompt]` creates and replies with an AI generated image
 
 `@[name]` tagging the bot account will trigger a wake cycle
+
+`-math [expression]` calculator
 
 ## Dependencies
 
