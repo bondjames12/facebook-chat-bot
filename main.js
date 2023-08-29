@@ -1,5 +1,5 @@
 const login = require('facebook-chat-api');
-const getModifiedCookie = require('./login');
+const getModifiedCookie = require('./src/login');
 const handleMessage = require('./messageHandler');
 
 (async () => {

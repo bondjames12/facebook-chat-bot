@@ -1,5 +1,5 @@
-const chatBot = require("./openAI.js");
-const calculate = require("./calculate.js");
+const chatBot = require("./src/openAI.js");
+const calculate = require("./src/calculate.js");
 
 async function handleMessage(api, message) {
     switch (message.type) {
@@ -36,8 +36,13 @@ async function handleMessage(api, message) {
 
             // calculator
             if (message.body.slice(0,6).trim() == "-math"){
-                result = calculate(message.body.slice(5).trim());
+                result = calculate.calculateMathExpression(message.body.slice(5).trim());
                 api.sendMessage(result.toString(), message.threadID, message.messageID);
+            }
+
+            if (message.body.slice(0,5).trim() == "-cat"){
+                result = calculate.cat(message.body.slice(4).trim());
+                api.sendMessage(result, message.threadID, message.messageID);
             }
 
         break;
