@@ -61,6 +61,10 @@ From within a Faceook chat window:
 
 -puppeteer
 
+## Side Note
+
+Using the image generation feature `-pic` saves the generated image to the AIpics subdirectory. 
+ 
 ## License
 Idk I'm not a lawyer but like you can use it or whatever. Just give credit because that's nice, please 🥹.
 
