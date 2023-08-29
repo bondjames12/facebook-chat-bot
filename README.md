@@ -1,6 +1,6 @@
 # Facebook Chat Bot
 ## Overview
-This project uses the [Unofficial Facebook Chat API](https://github.com/Schmavery/facebook-chat-api) and the [Open AI API](https://platform.openai.com/docs/introduction) to run a ChatGPT style bot from a Facebook account.   
+This Node.js® project uses the [Unofficial Facebook Chat API](https://github.com/Schmavery/facebook-chat-api) and the [Open AI API](https://platform.openai.com/docs/introduction) to run a ChatGPT style bot from a Facebook account.   
 
 Read the documentation on the Unoffical Facebook Chat API to learn about how to customize bot functionality beyond the scope of this project.
 
@@ -61,9 +61,11 @@ From within a Faceook chat window:
 
 -puppeteer
 
-## Side Note
+## Side Notes
 
 Using the image generation feature `-pic` saves the generated image to the AIpics subdirectory. 
+
+You will need to have [Node.js®](https://nodejs.org/en) installed.
  
 ## License
 Idk I'm not a lawyer but like you can use it or whatever. Just give credit because that's nice, please 🥹.
