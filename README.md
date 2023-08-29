@@ -1,6 +1,6 @@
 # Facebook Chat Bot
 ## Overview
-This Node.js project uses the [Unofficial Facebook Chat API](https://github.com/Schmavery/facebook-chat-api) and the [Open AI API](https://platform.openai.com/docs/introduction) to run a ChatGPT style bot from a Facebook account.   
+This Node.js project uses the [Unofficial Facebook Chat API](https://github.com/Schmavery/facebook-chat-api) and the [OpenAI API](https://platform.openai.com/docs/introduction) to run a ChatGPT style bot from a Facebook account.   
 
 Read the documentation on the Unoffical Facebook Chat API to learn about how to customize bot functionality beyond the scope of this project.
 
