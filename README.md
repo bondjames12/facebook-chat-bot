@@ -65,6 +65,11 @@ From within a Faceook chat window:
 
 -puppeteer
 
+## Screenshots
+
+![Example Image](AIpics/pic.png)
+![Example Image](AIpics/bot.png)
+
 ## Side Notes
 
 Using the image generation feature `-pic` saves the generated image to the AIpics subdirectory. 
