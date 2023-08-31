@@ -38,7 +38,7 @@ function calculateMathExpression(str) {
 
         switch (num) {
             case num:
-                result = num * 3.141592653589793238462643383279502884197169399375105820974944592307816406286;
+                result = num * 3.141592653589793238462643383279502884197169399375105820974944592307816406286; // just a lil joke
         }
 
         str = str.replace(match[0], result);
@@ -73,43 +73,6 @@ function calculateMathExpression(str) {
     while (/\d\(/.test(str)) {
         str = str.replace(/(\d)\(/g, '$1*(');
     }
-
-    /*const removeBadCharsRegex = /(sqrt|pi|e\+\d+)|([a-zA-Z@#$&=}{><?\\|`\,~"':;{}\]\[]|\+{2,}|\*{2,}|\/{2,}|\-{3,}|\!{2,}|\%{2,}|\^{2,}|\.{2,})/;
-  
-    while(removeBadCharsRegex.test(str)){
-      const match = removeBadCharsRegex.exec(str);
-      const charsToKeep = match[1];
-      const charsToRemove = match[2];
-  
-      if(charsToKeep){
-  
-        const part = /(.+?|)(sqrt\(?\d*.?\d+\)?[+\-%\^\/\*]?)(.+)/.exec(str);
-        let keepMatch;
-        
-        if(part[1]){
-  
-          keepMatch = part[1] + part[2];
-          const process = part[3];
-          str = keepMatch + calculateMathExpression(process);
-  
-        }
-        else{
-          keepMatch = part[2];
-          const process = part[3];
-          str = keepMatch + calculateMathExpression(process);
-        }
-        
-      }
-  
-      if(charsToRemove){
-        str = str.replace(charsToRemove, "");
-        explanation.push(`Getting rid of your stupidity: ${charsToRemove}`);
-        console.log(charsToRemove);
-      } 
-      else {
-        break; 
-      }
-    }*/
 
     // Create a regular expression to match parentheses
     const parenthesesRegex = /\(([^\(\)]+)\)/g;
