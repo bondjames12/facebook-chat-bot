@@ -8,7 +8,7 @@ async function handleMessage(api, message) {
             console.log(`Message: ${message.body} in thread ID: ${message.threadID}`);
 
             // handle message to the bot
-            if (message.body.length > 0 && message.senderID) {
+            if (message.body.length > 0 && message.senderID && message.body.slice(0,1) != "-") {
                 const stayOnFor = process.env.STAY_ON_FOR;
                 let trigger = false;
 
@@ -35,20 +35,20 @@ async function handleMessage(api, message) {
             }
 
             // calculator
-            if (message.body.slice(0,6).trim() == "-math"){
+            if (message.body.slice(0, 6).trim() == "-math") {
                 result = calculate.calculateMathExpression(message.body.slice(5).trim());
                 api.sendMessage(result.toString(), message.threadID, message.messageID);
             }
 
-            if (message.body.slice(0,5).trim() == "-cat"){
+            if (message.body.slice(0, 5).trim() == "-cat") {
                 result = calculate.cat(message.body.slice(4).trim());
                 api.sendMessage(result, message.threadID, message.messageID);
             }
 
-        break;
+            break;
 
         default:
-            console.log(`Alternate message type: ${message.type} in thread ID: ${ message.threadID }`);
+            console.log(`Alternate message type: ${message.type} in thread ID: ${message.threadID}`);
     }
 }
 
