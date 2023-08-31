@@ -48,7 +48,7 @@ async function handleMessage(api, message) {
             break;
 
         default:
-            console.log(`Alternate message type: ${message.type} in thread ID: ${message.threadID}`);
+            //console.log(`Alternate message type: ${message.type} in thread ID: ${message.threadID}`);
     }
 }
 
