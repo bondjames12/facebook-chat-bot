@@ -46,6 +46,9 @@ async function handleMessage(api, message) {
             }
 
         break;
+
+        default:
+            console.log("Alternate message type: " + message.type);
     }
 }
 

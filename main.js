@@ -9,7 +9,12 @@ const handleMessage = require('./messageHandler');
         if (err) return console.error(err);
 
         api.listenMqtt((err, message) => {
-            handleMessage(api, message);
+            if (message.type) {
+                handleMessage(api, message);
+            }
+            else{
+                console.error("Type error!\n" + message);
+            }
         });
     });
 })();
