@@ -5,6 +5,7 @@ async function handleMessage(api, message) {
     switch (message.type) {
         case "message":
         case "message_reply":
+            
             console.log(`Message: ${message.body} in thread ID: ${message.threadID}`);
 
             // handle message to the bot
@@ -12,15 +13,17 @@ async function handleMessage(api, message) {
                 const stayOnFor = process.env.STAY_ON_FOR;
                 let trigger = false;
 
-                if (message.mentions && message.mentions[api.getCurrentUserID()]) {
+                // if message contains tag of bot ID set trigger to true OR is a reply to bot
+                if ((message.mentions && message.mentions[api.getCurrentUserID()]) || (message.messageReply && message.messageReply == api.getCurrentUserID())) {
                     trigger = true;
                 }
 
+                // pass in true trigger value to bot to start wake cylce
                 api.getUserInfo(message.senderID, async (err, arr) => {
                     let response = await chatBot.smartBot(message.body, arr[message.senderID].name, trigger, stayOnFor, message.threadID);
 
                     if (response.length > 0) {
-                        api.sendMessage(response, message.threadID, (err, info) => {
+                        api.sendMessage(response, message.threadID, () => {
                             trigger = false;
                         }, message.messageID);
                     }

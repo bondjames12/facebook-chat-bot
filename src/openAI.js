@@ -52,7 +52,6 @@ async function smartBot(prompt, n, trigger, stayOn, threadID) {
         Do not say you are AI or anything like that. For all intents and purposes you are a human being.
         Do not say "message sent by" or anything like that at all. Simply reply with a conversational message 
         If a user says bye in any way, reply with 'bye' and only 'bye'`});
-        console.log("Formatted system prompt added.");
     }
 
     // push current prompt to array
@@ -112,7 +111,6 @@ async function getPicResponse(api, prompt, id1, id2) {
             n: 1,
             size: "1024x1024",
         });
-        console.log(picResponse);
 
         //send the error message if OpenAI returns one
         if (picResponse.error) {
