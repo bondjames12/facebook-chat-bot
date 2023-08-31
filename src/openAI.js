@@ -55,12 +55,8 @@ async function smartBot(prompt, n, trigger, stayOn, threadID) {
         console.log("Formatted system prompt added.");
     }
 
-    // get user's name
-    const user = `message sent by ${n}`;
-    console.log(`Received message from: ${n} in thread ${threadID}`);
-
     // push current prompt to array
-    threadState.promptArray.push({ role: "user", content: user + prompt });
+    threadState.promptArray.push({ role: "user", content: `message sent by ${n} ${prompt}` });
 
     // declare reply variable to hold bot reply
     let replyText = '';

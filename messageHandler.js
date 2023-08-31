@@ -5,7 +5,7 @@ async function handleMessage(api, message) {
     switch (message.type) {
         case "message":
         case "message_reply":
-            console.log(message);
+            console.log(`Message: ${message.body} in thread ID: ${message.threadID}`);
 
             // handle message to the bot
             if (message.body.length > 0 && message.senderID) {
@@ -48,7 +48,7 @@ async function handleMessage(api, message) {
         break;
 
         default:
-            console.log("Alternate message type: " + message.type);
+            console.log(`Alternate message type: ${message.type} in thread ID: ${ message.threadID }`);
     }
 }
 
