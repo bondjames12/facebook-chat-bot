@@ -11,7 +11,7 @@ Read the documentation on the Unoffical Facebook Chat API to learn how to custom
 
 -Simple calculator 
 
--Cat balloon calculator [(see below for details)](#cat-balloon-altitude-estimator)
+-Cat balloon calculator
 
 ## Installation
 To get started, clone the repository and install the dependencies.
