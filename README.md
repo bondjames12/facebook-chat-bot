@@ -32,9 +32,11 @@ To get started, clone the repository and install the dependencies.
 
 `BOT_NAME=[name]` - pick a name
 
-`STAY_ON_FOR=5` - defines how many messages a bot will reply to in a single wake cycle
+`STAY_ON_FOR=5` - the number of messages a bot will reply to in a single wake cycle
 
-`COOLDOWN=10000`- defines the cooldown time for a bot sending replies during a wake cycle
+`COOLDOWN=10000`- cooldown time for a bot sending replies during a wake cycle
+
+`HISTORY_LENGTH=10`- number of previous messages that get passed into each AI chat message
 
 ## Usage
 To start the bot, run:

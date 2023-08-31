@@ -30,7 +30,7 @@ async function smartBot(prompt, n, trigger, stayOn, threadID) {
         };
     }
 
-    // use the current threat state to track group messages
+    // use the current threat state to track individual group messages
     let threadState = threads[threadID];
 
     // Initialize the lastReplied time if not present
@@ -82,6 +82,10 @@ async function smartBot(prompt, n, trigger, stayOn, threadID) {
 
         // add bot reply to message Hx
         threadState.promptArray.push({ role: "assistant", content: replyText });
+
+        if(threadState.promptArray.length >= process.env.HISTORY_LENGTH){
+            threadState.promptArray.splice(1, 1);
+        }
 
         // increment number of messages bot will reply to in one wake cycle
         threadState.turnedOn++;
