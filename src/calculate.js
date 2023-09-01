@@ -355,36 +355,45 @@ function cat(numOfBalloons) {
     }
 
     // Constants
-    const R_IDEAL = 8.31446; // Ideal gas constant, in J/(K*mol)
-    const M_AIR = 0.028964; // Molar mass of air, in kg/mol
-    const M_HELIUM = 0.004002602; // Molar mass of helium, in kg/mol
-    const T_SEA_LEVEL = 288.15; // Temperature at sea level, in K
-    const P_SEA_LEVEL = 101325; // Pressure at sea level, in Pa
-    const GRAVITY = 9.80665; // Acceleration due to gravity, in m/s^2
-    const V_BALLOON = 0.0121; // Volume of each balloon, in m^3
-    const CAT_WEIGHT = 4.5; // Weight of the cat, in kg
+    const R_IDEAL = 8.31446;
+    const M_AIR = 0.028964;
+    const M_HELIUM = 0.004002602;
+    const T_SEA_LEVEL = 288.15;
+    const P_SEA_LEVEL = 101325;
+    const GRAVITY = 9.80665;
+    const V_BALLOON = 0.0121;
+    const CAT_WEIGHT = 4.5;
 
-    const TOTAL_BALLOON_VOLUME = numOfBalloons * V_BALLOON;  // Total volume of balloons
+    const TOTAL_BALLOON_VOLUME = numOfBalloons * V_BALLOON;
 
-    const ALTITUDES = [];  // Array to store altitude values
-    const BUOYANCY_CHART = [];     // Array to store buoyancy values
+    const ALTITUDES = [];
+    const BUOYANCY_CHART = [];
 
-    // Calculate buoyancy at different altitudes up to the Karman line
     for (let h = 0; h <= 100000; h += 0.001) {
         const T_CURRENT = T_SEA_LEVEL - 6.5e-3 * h;
         const P_CURRENT = P_SEA_LEVEL * Math.pow(T_CURRENT / T_SEA_LEVEL, -GRAVITY * M_AIR / (R_IDEAL * -6.5e-3));
-    
-        // Calculate density of air at current altitude
+
         const RHO = P_CURRENT * M_AIR / (R_IDEAL * T_CURRENT);
-        
-        // Calculate density of helium at current altitude
         const RHO_HELIUM = P_CURRENT * M_HELIUM / (R_IDEAL * T_CURRENT);
-    
-        // Calculate buoyant force from balloons filled with helium
+
         const F_BUOYANCY_BALLOONS = (RHO - RHO_HELIUM) * TOTAL_BALLOON_VOLUME * GRAVITY;
         const F_NET = F_BUOYANCY_BALLOONS - CAT_WEIGHT * GRAVITY;
 
-        if (F_NET <= 0) {  // The cat has reached its maximum altitude
+        /* Conversion constants
+        const PA_TO_PSI = 0.00014503773779; // Pascal to PSI conversion
+        const M_TO_FEET = 3.28084;
+        const KG_PER_M3_TO_LBS_PER_FT3 = 0.062428;
+        
+        console.log("Altitude: ", (h * M_TO_FEET).toFixed(2), "feet");
+        console.log("Temperature at this altitude: ", T_CURRENT.toFixed(2), "K (Kelvin) or", (T_CURRENT - 273.15).toFixed(2), "°C (Celsius)");
+        console.log("Pressure at this altitude: ", P_CURRENT.toFixed(2), "Pa (Pascals) or", (P_CURRENT * PA_TO_PSI).toFixed(2), "PSI");
+        console.log("Density of Air: ", RHO.toFixed(4), "kg/m³ or", (RHO * KG_PER_M3_TO_LBS_PER_FT3).toFixed(4), "lbs/ft³");
+        console.log("Density of Helium: ", RHO_HELIUM.toFixed(4), "kg/m³ or", (RHO_HELIUM * KG_PER_M3_TO_LBS_PER_FT3).toFixed(4), "lbs/ft³");
+        console.log("Buoyant Force from the balloons: ", F_BUOYANCY_BALLOONS, "N (Newtons)");
+        console.log("Net Force (Buoyant force - Cat weight): ", F_NET, "N (Newtons)\n\n\n");
+        */
+
+        if (F_NET <= 0) {
             break;
         }
 
@@ -398,13 +407,22 @@ function cat(numOfBalloons) {
 
     const METERS_TO_FEET = 3.28084;
     const FINAL_ALT_METERS = ALTITUDES[ALTITUDES.length - 1];
-    const FINAL_ALT_FEET = Math.round(FINAL_ALT_METERS * METERS_TO_FEET);
-
+    const FINAL_ALT_FEET_FLOAT = FINAL_ALT_METERS * METERS_TO_FEET;
+    
+    // Split the feet value into whole feet and fractional feet
+    const WHOLE_FEET = Math.floor(FINAL_ALT_FEET_FLOAT);
+    const FRACTIONAL_FEET = FINAL_ALT_FEET_FLOAT - WHOLE_FEET;
+    
+    // Convert fractional feet to inches
+    const INCHES = Math.round(FRACTIONAL_FEET * 12);
+    
     if (FINAL_ALT_METERS >= 99999) {
-        return "CONGRATULATIONS YOUR CAT MADE IT TO OUTER SPACE! #SPACEKITTY\n\n The final altitude of the cat is over " + FINAL_ALT_METERS.toLocaleString() + " meters, or " + FINAL_ALT_FEET.toLocaleString() + " feet, which is considered the boundary of space, called the Karman Line!";
+        return `CONGRATULATIONS YOUR CAT MADE IT TO OUTER SPACE! #SPACEKITTY\n\n The final altitude of the cat is over ${FINAL_ALT_METERS.toLocaleString()} meters, or ${WHOLE_FEET} feet ${INCHES} inches, which is considered the boundary of space, called the Karman Line!`;
     } else {
-        return "You tied " + numOfBalloons + " balloons to the cat and it reached an altitude of " + FINAL_ALT_METERS.toLocaleString() + " meters, or " + FINAL_ALT_FEET.toLocaleString() + " feet.";
+        return `You tied ${numOfBalloons} balloons to the cat and it reached an altitude of ${FINAL_ALT_METERS.toLocaleString()} meters, or ${WHOLE_FEET} feet ${INCHES} inches.`;
     }
+    
 }
+
 
 module.exports = { calculateMathExpression, cat };
