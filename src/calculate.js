@@ -357,6 +357,7 @@ function cat(numOfBalloons) {
     // Constants
     const R_IDEAL = 8.31446; // Ideal gas constant, in J/(K*mol)
     const M_AIR = 0.028964; // Molar mass of air, in kg/mol
+    const M_HELIUM = 0.004002602; // Molar mass of helium, in kg/mol
     const T_SEA_LEVEL = 288.15; // Temperature at sea level, in K
     const P_SEA_LEVEL = 101325; // Pressure at sea level, in Pa
     const GRAVITY = 9.80665; // Acceleration due to gravity, in m/s^2
@@ -369,15 +370,18 @@ function cat(numOfBalloons) {
     const BUOYANCY_CHART = [];     // Array to store buoyancy values
 
     // Calculate buoyancy at different altitudes up to the Karman line
-    for (let h = 0; h <= 100000; h += 0.01) {
-
+    for (let h = 0; h <= 100000; h += 0.001) {
         const T_CURRENT = T_SEA_LEVEL - 6.5e-3 * h;
         const P_CURRENT = P_SEA_LEVEL * Math.pow(T_CURRENT / T_SEA_LEVEL, -GRAVITY * M_AIR / (R_IDEAL * -6.5e-3));
+    
+        // Calculate density of air at current altitude
         const RHO = P_CURRENT * M_AIR / (R_IDEAL * T_CURRENT);
-
-        // Calculate buoyant force from balloons only
-        const F_BUOYANCY_BALLOONS = RHO * TOTAL_BALLOON_VOLUME * GRAVITY;
-        // Net buoyant force after considering the cat's weight
+        
+        // Calculate density of helium at current altitude
+        const RHO_HELIUM = P_CURRENT * M_HELIUM / (R_IDEAL * T_CURRENT);
+    
+        // Calculate buoyant force from balloons filled with helium
+        const F_BUOYANCY_BALLOONS = (RHO - RHO_HELIUM) * TOTAL_BALLOON_VOLUME * GRAVITY;
         const F_NET = F_BUOYANCY_BALLOONS - CAT_WEIGHT * GRAVITY;
 
         if (F_NET <= 0) {  // The cat has reached its maximum altitude
