@@ -49,7 +49,7 @@ Here are the available commands for the bot:
 
 | Command                 | Description                                               |
 |-------------------------|-----------------------------------------------------------|
-| `-pic [prompt]`         | Creates and replies with an AI generated image. You can also use natural language prompts like "send me a picture of a tree". |
+| `-pic [prompt]`         | Creates and replies with an AI generated image. You can also use natural language prompts like "send me a picture of a tree" in a wake cycle. |
 | `@[name]`               | Tagging the bot account will trigger a wake cycle.        |
 | `-math [expression]`    | Calculates the result of the given math expression.       |
 | `-cat [number]`         | Calculates how high a cat will go if N number of balloons were tied to it. |
