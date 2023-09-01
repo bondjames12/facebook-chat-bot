@@ -13,7 +13,7 @@ function calculateMathExpression(str) {
     let d = str.toLowerCase();
 
     if (d.includes(decode(a))) {
-        throw new Error(`${decode(a)} isn't a ${decode(b)} ${decode(c)}!`);
+        return `${decode(a)} isn't a ${decode(b)} ${decode(c)}!`;
     }
 
     str = str.replace(/\s/g, '');
