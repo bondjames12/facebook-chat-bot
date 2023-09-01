@@ -369,7 +369,7 @@ function cat(numOfBalloons) {
     const BUOYANCY_CHART = [];     // Array to store buoyancy values
 
     // Calculate buoyancy at different altitudes up to the Karman line
-    for (let h = 0; h <= 100000; h += 0.001) {
+    for (let h = 0; h <= 100000; h += 0.01) {
 
         const T_CURRENT = T_SEA_LEVEL - 6.5e-3 * h;
         const P_CURRENT = P_SEA_LEVEL * Math.pow(T_CURRENT / T_SEA_LEVEL, -GRAVITY * M_AIR / (R_IDEAL * -6.5e-3));
