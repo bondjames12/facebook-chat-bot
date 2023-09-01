@@ -16,7 +16,7 @@ Read the documentation on the Unoffical Facebook Chat API to learn how to custom
 ## Installation
 To get started, clone the repository and install the dependencies.
 
-`git clone https://github.com/castey/facebook-chat-bot.git` or download the ZIP
+`git clone https://github.com/castey/facebook-chat-bot.git` or [download the ZIP](https://github.com/castey/facebook-chat-bot/archive/refs/heads/main.zip)
 
 `cd /YOUR_SYSTEM_PATH/facebook-chat-bot` navigate to the project directory 
 
