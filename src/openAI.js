@@ -89,7 +89,7 @@ async function simpleBot(prompt, tokens, temperature) {
     return response.choices[0].text;
 }
 
-async function smartBot(prompt, n, trigger, stayOn, threadID, id2, api) {
+async function smartBot(prompt, n, nick, trigger, stayOn, threadID, id2, api) {
 
     // current time for cooldown calculation
     const currentTime = Date.now();
@@ -121,15 +121,15 @@ async function smartBot(prompt, n, trigger, stayOn, threadID, id2, api) {
     if (threadState.promptArray.length == 0) {
         threadState.promptArray.unshift({
             role: "system", content: `You are inside a group chat with many different people. 
-        You are their friendly assistant. Your name is ${process.env.BOT_NAME}. 
-        Do not say you are AI or anything like that. For all intents and purposes you are a human being.
-        Do not say "message sent by" or anything like that at all. Simply reply with a conversational message 
-        If a user says bye in any way, reply with 'bye' and only 'bye'
-        if a user requests a picture in any way, reply with "-pic" following by whatever their request is`});
+You are their friendly assistant. Your name is ${nick}. 
+Do not say you are AI or anything like that. For all intents and purposes you are a human being.
+Do not ever say "message sent by" or anything like that at all. This is very important. Simply reply with a conversational message 
+If a user says bye in any way, reply with 'bye' and only 'bye'
+If a user requests a picture in any way, reply with "-pic" followed by whatever their request is`});
     }
 
     // push current prompt to array
-    threadState.promptArray.push({ role: "user", content: `message sent by ${n} ${prompt}` });
+    threadState.promptArray.push({ role: "user", content: `message sent by ${n}: ${prompt}` });
 
     // declare variable to hold bot reply
     let replyText = '';
@@ -148,11 +148,11 @@ async function smartBot(prompt, n, trigger, stayOn, threadID, id2, api) {
         });
         replyText = reply.choices[0].message.content
         // reset turned on to high number so bot sleeps if you say bye to it
-        if (replyText == "bye") {
+        if (replyText.toLowerCase() == "bye") {
             threadState.turnedOn = 100000;
         }
         
-        if (replyText.slice(0, 4) == "-pic") {
+        if (replyText.slice(0, 4).toLowerCase() == "-pic") {
             getPicResponse(api, replyText.slice(4).trim(), threadID, id2);
         }
 

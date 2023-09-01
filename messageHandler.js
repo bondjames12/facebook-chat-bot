@@ -9,7 +9,7 @@ async function handleMessage(api, message) {
             console.log(`Message: ${message.body} in thread ID: ${message.threadID}`);
 
             // handle message to the bot
-            if (message.body.length > 0 && message.senderID && message.body.slice(0,1) != "-") {
+            if (message.body.length > 0 && message.senderID && message.body.slice(0,1) != "-" && message.body.slice(0,1) != "/") {
                 const stayOnFor = process.env.STAY_ON_FOR;
                 let trigger = false;
 
@@ -18,10 +18,17 @@ async function handleMessage(api, message) {
                     trigger = true;
                 }
 
+                if(message.mentions && message.mentions[api.getCurrentUserID()]){
+                    nickName = message.mentions[api.getCurrentUserID()]
+                }
+                else{
+                    nickName = process.env.BOT_NAME
+                }
+
                 // pass in true trigger value to bot to start wake cylce
                 api.getUserInfo(message.senderID, async (err, arr) => {
                     if (err) console.error("Error getting user info!")
-                    let response = await chatBot.smartBot(message.body, arr[message.senderID].name, trigger, stayOnFor, message.threadID, message.messageID, api);
+                    let response = await chatBot.smartBot(message.body, arr[message.senderID].name, nickName, trigger, stayOnFor, message.threadID, message.messageID, api);
 
                     if (response.length > 0 && response.slice(0,1) != "-") {
                         api.sendMessage(response, message.threadID, () => {
