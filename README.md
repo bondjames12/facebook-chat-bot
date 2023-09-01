@@ -22,26 +22,16 @@ To get started, clone the repository and install the dependencies.
 
 `npm install`
 
-### Create a .env file in the root directory.
-
-`FB_EMAIL=[your-facebook-email-address]`
-
-`FB_PASSWORD=[your-facebook-password]`
-
-`OPENAI_API_KEY=[your-openai-api-key]`
-
-`BOT_NAME=[name]` - pick a name
-
-`STAY_ON_FOR=5` - the number of messages a bot will reply to in a single wake cycle
-
-`COOLDOWN=10000`- cooldown time for a bot sending replies during a wake cycle
-
-`HISTORY_LENGTH=10`- number of previous messages that get passed into each AI chat message
-
 ## Usage
 To start the bot, run:
 
+You will need to have [Node.js®](https://nodejs.org/en) installed.
+
 `node main.js`
+
+It will prompt you for an email, password, and OpenAI API key
+
+To obtain an API key visit [OpenAI](https://platform.openai.com/)
 
 # Bot Commands
 
@@ -68,6 +58,8 @@ Here are the available commands for the bot:
 
 -puppeteer
 
+-readline
+
 ## Screenshots
 
 ![Example Image](AIpics/pic.png)
@@ -76,8 +68,6 @@ Here are the available commands for the bot:
 ## Side Notes
 
 Using the image generation feature `-pic` saves the generated image to the AIpics subdirectory. 
-
-You will need to have [Node.js®](https://nodejs.org/en) installed.
  
 ## License
 Idk I'm not a lawyer but like you can use it or whatever. Just give credit because that's nice, please 🥹.
