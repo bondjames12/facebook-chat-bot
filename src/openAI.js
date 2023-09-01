@@ -179,7 +179,6 @@ async function smartBot(prompt, n, trigger, stayOn, threadID, id2, api) {
     return replyText;
 }
 
-
 module.exports = {
     simpleBot,
     smartBot,
