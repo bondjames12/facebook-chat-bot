@@ -349,7 +349,6 @@ function calculateMathExpression(str) {
 }
 
 function cat(numOfBalloons) {
-
     if (isNaN(numOfBalloons)) {
         return "I'm sorry, you're trying to tie \"" + numOfBalloons + "\" balloons to a cat?? That isn't even a number!!";
     }
@@ -363,65 +362,65 @@ function cat(numOfBalloons) {
     const GRAVITY = 9.80665;
     const V_BALLOON = 0.0121;
     const CAT_WEIGHT = 4.5;
-
     const TOTAL_BALLOON_VOLUME = numOfBalloons * V_BALLOON;
 
-    const ALTITUDES = [];
-    const BUOYANCY_CHART = [];
+    const ACCURACY = 0.0001;
+    let lo = 0;
+    let hi = 100000;
 
-    for (let h = 0; h <= 100000; h += 0.001) {
-        const T_CURRENT = T_SEA_LEVEL - 6.5e-3 * h;
-        const P_CURRENT = P_SEA_LEVEL * Math.pow(T_CURRENT / T_SEA_LEVEL, -GRAVITY * M_AIR / (R_IDEAL * -6.5e-3));
+    // Initial check at ground level
+    const T_INITIAL = T_SEA_LEVEL;
+    const P_INITIAL = P_SEA_LEVEL;
+    const RHO_INITIAL = P_INITIAL * M_AIR / (R_IDEAL * T_INITIAL);
+    const RHO_HELIUM_INITIAL = P_INITIAL * M_HELIUM / (R_IDEAL * T_INITIAL);
+    const F_BUOYANCY_INITIAL = (RHO_INITIAL - RHO_HELIUM_INITIAL) * TOTAL_BALLOON_VOLUME * GRAVITY;
+    const F_NET_INITIAL = F_BUOYANCY_INITIAL - CAT_WEIGHT * GRAVITY;
 
-        const RHO = P_CURRENT * M_AIR / (R_IDEAL * T_CURRENT);
-        const RHO_HELIUM = P_CURRENT * M_HELIUM / (R_IDEAL * T_CURRENT);
+    let iterations = 0;
 
-        const F_BUOYANCY_BALLOONS = (RHO - RHO_HELIUM) * TOTAL_BALLOON_VOLUME * GRAVITY;
-        const F_NET = F_BUOYANCY_BALLOONS - CAT_WEIGHT * GRAVITY;
+    if (F_NET_INITIAL <= 0) {
+        return "You tied " + numOfBalloons + " balloons to the cat, but it didn't gain any altitude!";
+    } else {
+        while ((hi - lo) > ACCURACY) {
 
-        /* Conversion constants
-        const PA_TO_PSI = 0.00014503773779; // Pascal to PSI conversion
-        const M_TO_FEET = 3.28084;
-        const KG_PER_M3_TO_LBS_PER_FT3 = 0.062428;
-        
-        console.log("Altitude: ", (h * M_TO_FEET).toFixed(2), "feet");
-        console.log("Temperature at this altitude: ", T_CURRENT.toFixed(2), "K (Kelvin) or", (T_CURRENT - 273.15).toFixed(2), "°C (Celsius)");
-        console.log("Pressure at this altitude: ", P_CURRENT.toFixed(2), "Pa (Pascals) or", (P_CURRENT * PA_TO_PSI).toFixed(2), "PSI");
-        console.log("Density of Air: ", RHO.toFixed(4), "kg/m³ or", (RHO * KG_PER_M3_TO_LBS_PER_FT3).toFixed(4), "lbs/ft³");
-        console.log("Density of Helium: ", RHO_HELIUM.toFixed(4), "kg/m³ or", (RHO_HELIUM * KG_PER_M3_TO_LBS_PER_FT3).toFixed(4), "lbs/ft³");
-        console.log("Buoyant Force from the balloons: ", F_BUOYANCY_BALLOONS, "N (Newtons)");
-        console.log("Net Force (Buoyant force - Cat weight): ", F_NET, "N (Newtons)\n\n\n");
-        */
+            iterations++; // Increment the iteration count
 
-        if (F_NET <= 0) {
-            break;
+            let mid = (lo + hi) / 2;
+            const T_CURRENT = T_SEA_LEVEL - 6.5e-3 * mid;
+            const P_CURRENT = P_SEA_LEVEL * Math.pow(T_CURRENT / T_SEA_LEVEL, -GRAVITY * M_AIR / (R_IDEAL * -6.5e-3));
+            
+            const RHO = P_CURRENT * M_AIR / (R_IDEAL * T_CURRENT);
+            const RHO_HELIUM = P_CURRENT * M_HELIUM / (R_IDEAL * T_CURRENT);
+            
+            const F_BUOYANCY_BALLOONS = (RHO - RHO_HELIUM) * TOTAL_BALLOON_VOLUME * GRAVITY;
+            const F_NET = F_BUOYANCY_BALLOONS - CAT_WEIGHT * GRAVITY;
+
+            if (F_NET > 0) {
+                lo = mid;
+            } else {
+                hi = mid;
+            }
         }
 
-        ALTITUDES.push(h);
-        BUOYANCY_CHART.push(F_NET.toFixed(8));
-    }
+        console.log(`Number of iterations in the binary search: ${iterations}`);
 
-    if (ALTITUDES.length == 0) {
-        return "You tied " + numOfBalloons + " balloons to the cat, but it didn't gain any altitude!";
-    }
+        const FINAL_ALT_METERS = hi;
+        const METERS_TO_FEET = 3.28084;
+        const FINAL_ALT_FEET_FLOAT = FINAL_ALT_METERS * METERS_TO_FEET;
 
-    const METERS_TO_FEET = 3.28084;
-    const FINAL_ALT_METERS = ALTITUDES[ALTITUDES.length - 1];
-    const FINAL_ALT_FEET_FLOAT = FINAL_ALT_METERS * METERS_TO_FEET;
-    
-    // Split the feet value into whole feet and fractional feet
-    const WHOLE_FEET = Math.floor(FINAL_ALT_FEET_FLOAT);
-    const FRACTIONAL_FEET = FINAL_ALT_FEET_FLOAT - WHOLE_FEET;
-    
-    // Convert fractional feet to inches
-    const INCHES = (FRACTIONAL_FEET * 12).toFixed(1);
-    
-    if (FINAL_ALT_METERS >= 99999) {
-        return `CONGRATULATIONS YOUR CAT MADE IT TO OUTER SPACE! #SPACEKITTY\n\n The final altitude of the cat is over ${FINAL_ALT_METERS.toLocaleString()} meters, or ${WHOLE_FEET} feet ${INCHES} inches, which is considered the boundary of space, called the Karman Line!`;
-    } else {
-        return `You tied ${numOfBalloons} balloons to the cat and it reached an altitude of ${FINAL_ALT_METERS.toLocaleString()} meters, or ${WHOLE_FEET.toLocaleString()} feet and ${INCHES} inches.`;
+        // Split the feet value into whole feet and fractional feet
+        const WHOLE_FEET = Math.floor(FINAL_ALT_FEET_FLOAT);
+        const FRACTIONAL_FEET = FINAL_ALT_FEET_FLOAT - WHOLE_FEET;
+
+        // Convert fractional feet to inches
+        const INCHES = (FRACTIONAL_FEET * 12).toFixed(1);
+
+        if (FINAL_ALT_METERS >= 99999) {
+            return `CONGRATULATIONS YOUR CAT MADE IT TO OUTER SPACE! #SPACEKITTY\n\n The final altitude of the cat is over ${FINAL_ALT_METERS.toLocaleString()} meters, or ${WHOLE_FEET} feet ${INCHES} inches, which is considered the boundary of space, called the Karman Line!`;
+        } else {
+            return `You tied ${numOfBalloons} balloons to the cat and it reached an altitude of ${FINAL_ALT_METERS.toLocaleString()} meters, or ${WHOLE_FEET.toLocaleString()} feet and ${INCHES} inches.`;
+        }
     }
-    
 }
 
 module.exports = { calculateMathExpression, cat };
