@@ -6,7 +6,7 @@ async function handleMessage(api, message) {
         case "message":
         case "message_reply":
             
-            console.log(`Message: ${message.body} in thread ID: ${message.threadID}`);
+            console.log(`Message: ${message.body.trim()} in thread ID: ${message.threadID}\n`);
 
             // handle message to the bot
             if (message.body.length > 0 && message.senderID && message.body.slice(0,1) != "-" && message.body.slice(0,1) != "/") {
