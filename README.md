@@ -75,4 +75,3 @@ Idk I'm not a lawyer but like you can use it or whatever. Just give credit becau
 
 ## Contributing
 Pull requests are welcome!
-
