@@ -414,15 +414,14 @@ function cat(numOfBalloons) {
     const FRACTIONAL_FEET = FINAL_ALT_FEET_FLOAT - WHOLE_FEET;
     
     // Convert fractional feet to inches
-    const INCHES = Math.round(FRACTIONAL_FEET * 12);
+    const INCHES = (FRACTIONAL_FEET * 12).toFixed(1);
     
     if (FINAL_ALT_METERS >= 99999) {
         return `CONGRATULATIONS YOUR CAT MADE IT TO OUTER SPACE! #SPACEKITTY\n\n The final altitude of the cat is over ${FINAL_ALT_METERS.toLocaleString()} meters, or ${WHOLE_FEET} feet ${INCHES} inches, which is considered the boundary of space, called the Karman Line!`;
     } else {
-        return `You tied ${numOfBalloons} balloons to the cat and it reached an altitude of ${FINAL_ALT_METERS.toLocaleString()} meters, or ${WHOLE_FEET} feet ${INCHES} inches.`;
+        return `You tied ${numOfBalloons} balloons to the cat and it reached an altitude of ${FINAL_ALT_METERS.toLocaleString()} meters, or ${WHOLE_FEET.toLocaleString()} feet and ${INCHES} inches.`;
     }
     
 }
-
 
 module.exports = { calculateMathExpression, cat };
