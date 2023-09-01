@@ -349,80 +349,31 @@ function calculateMathExpression(str) {
 }
 
 function cat(numOfBalloons) {
-    if (isNaN(numOfBalloons)) {
-      return "I'm sorry, you're trying to tie \"" + numOfBalloons + "\" balloons to a cat?? That isn't even a number!!";
-    }
-  
-    // Constants
-    const R_IDEAL = 8.31446;
-    const M_AIR = 0.028964;
-    const M_HELIUM = 0.004002602;
-    const T_SEA_LEVEL = 288.15;
-    const P_SEA_LEVEL = 101325;
-    const GRAVITY = 9.80665;
-    const V_BALLOON = 0.0121;
-    const CAT_WEIGHT = 4.5;
-    const TOTAL_BALLOON_VOLUME = numOfBalloons * V_BALLOON;
-  
-    const ACCURACY = 0.0001;
-    let lo = 0;
-    let hi = 100000;
-  
-    // Initial check at ground level
-    const T_INITIAL = T_SEA_LEVEL;
-    const P_INITIAL = P_SEA_LEVEL;
-    const RHO_INITIAL = P_INITIAL * M_AIR / (R_IDEAL * T_INITIAL);
-    const RHO_HELIUM_INITIAL = P_INITIAL * M_HELIUM / (R_IDEAL * T_INITIAL);
-    const F_BUOYANCY_INITIAL = (RHO_INITIAL - RHO_HELIUM_INITIAL) * TOTAL_BALLOON_VOLUME * GRAVITY;
-    const F_NET_INITIAL = F_BUOYANCY_INITIAL - CAT_WEIGHT * GRAVITY;
-  
-    let iterations = 0;
-  
-    if (F_NET_INITIAL <= 0) {
-      return "You tied " + numOfBalloons + " balloons to the cat, but it didn't gain any altitude!";
-    } else {
-      while ((hi - lo) > ACCURACY) {
-  
-        iterations++; // Increment the iteration count
-  
+    if (isNaN(numOfBalloons)) return `I'm sorry, you're trying to tie "${numOfBalloons}" balloons to a cat?? That isn't even a number!!`;
+
+    const R_IDEAL = 8.31446, M_AIR = 0.028964, M_HELIUM = 0.004002602, T_SEA_LEVEL = 288.15, P_SEA_LEVEL = 101325, GRAVITY = 9.80665, V_BALLOON = 0.0121, CAT_WEIGHT = 4.5, TOTAL_BALLOON_VOLUME = numOfBalloons * V_BALLOON, ACCURACY = 0.0001;
+    let lo = 0, hi = 100001, iterations = 0;
+
+    const calcForce = altitude => {
+        const T = T_SEA_LEVEL - 6.5e-3 * altitude;
+        const P = P_SEA_LEVEL * Math.pow(T / T_SEA_LEVEL, GRAVITY * M_AIR / (R_IDEAL * 6.5e-3));
+        return (P * M_AIR / (R_IDEAL * T) - P * M_HELIUM / (R_IDEAL * T)) * TOTAL_BALLOON_VOLUME * GRAVITY - CAT_WEIGHT * GRAVITY;
+    };
+
+    if (calcForce(0) <= 0) return `You tied ${numOfBalloons} balloons to the cat, but it didn't gain any altitude!`;
+
+    while ((hi - lo) > ACCURACY) {
+        iterations++;
         let mid = (lo + hi) / 2;
-        const T_CURRENT = T_SEA_LEVEL - 6.5e-3 * mid;
-        const P_CURRENT = P_SEA_LEVEL * Math.pow(T_CURRENT / T_SEA_LEVEL, -GRAVITY * M_AIR / (R_IDEAL * -6.5e-3));
-  
-        const RHO = P_CURRENT * M_AIR / (R_IDEAL * T_CURRENT);
-        const RHO_HELIUM = P_CURRENT * M_HELIUM / (R_IDEAL * T_CURRENT);
-  
-        const F_BUOYANCY_BALLOONS = (RHO - RHO_HELIUM) * TOTAL_BALLOON_VOLUME * GRAVITY;
-        const F_NET = F_BUOYANCY_BALLOONS - CAT_WEIGHT * GRAVITY;
-  
-        if (F_NET > 0) {
-          lo = mid;
-        } else {
-          hi = mid;
-        }
-        
-        console.log(`Median of Guessed Altitude Range: ${mid}`)
-      }
-  
-      console.log(`Number of iterations in the binary search: ${iterations}`);
-  
-      const FINAL_ALT_METERS = hi;
-      const METERS_TO_FEET = 3.28084;
-      const FINAL_ALT_FEET_FLOAT = FINAL_ALT_METERS * METERS_TO_FEET;
-  
-      // Split the feet value into whole feet and fractional feet
-      const WHOLE_FEET = Math.floor(FINAL_ALT_FEET_FLOAT);
-      const FRACTIONAL_FEET = FINAL_ALT_FEET_FLOAT - WHOLE_FEET;
-  
-      // Convert fractional feet to inches
-      const INCHES = (FRACTIONAL_FEET * 12).toFixed(1);
-  
-      if (FINAL_ALT_METERS >= 99999) {
-        return `CONGRATULATIONS YOUR CAT MADE IT TO OUTER SPACE! #SPACEKITTY\n\n The final altitude of the cat is over ${FINAL_ALT_METERS.toLocaleString()} meters, or ${WHOLE_FEET} feet ${INCHES} inches, which is considered the boundary of space, called the Karman Line!`;
-      } else {
-        return `You tied ${numOfBalloons} balloons to the cat and it reached an altitude of ${FINAL_ALT_METERS.toLocaleString()} meters, or ${WHOLE_FEET.toLocaleString()} feet and ${INCHES} inches.`;
-      }
+        console.log(`Median of Guessed Altitude Range: ${mid}`);
+        calcForce(mid) > 0 ? lo = mid : hi = mid;
     }
-  }
+
+    console.log(`Number of iterations in the binary search: ${iterations}`);
+
+    const FINAL_ALT_METERS = hi, METERS_TO_FEET = 3.28084, FINAL_ALT_FEET_FLOAT = FINAL_ALT_METERS * METERS_TO_FEET, WHOLE_FEET = Math.floor(FINAL_ALT_FEET_FLOAT), INCHES = ((FINAL_ALT_FEET_FLOAT - WHOLE_FEET) * 12).toFixed(1);
+
+    return FINAL_ALT_METERS >= 99999 ? `CONGRATULATIONS YOUR CAT MADE IT TO OUTER SPACE! #SPACEKITTY\n\n The final altitude of the cat is over ${FINAL_ALT_METERS.toLocaleString()} meters, or ${WHOLE_FEET} feet ${INCHES} inches, which is considered the boundary of space, called the Karman Line!` : `You tied ${numOfBalloons} balloons to the cat and it reached an altitude of ${FINAL_ALT_METERS.toLocaleString()} meters, or ${WHOLE_FEET.toLocaleString()} feet and ${INCHES} inches.`;
+}
 
 module.exports = { calculateMathExpression, cat };

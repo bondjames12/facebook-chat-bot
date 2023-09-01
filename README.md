@@ -11,7 +11,7 @@ Read the documentation on the Unoffical Facebook Chat API to learn how to custom
 
 -Simple calculator 
 
-[-Cat balloon calculator](https://chat.openai.com/share/8c2c3932-fcc2-42b1-bf39-81e5d83ceb6d)
+-Cat balloon calculator [(read more)](https://chat.openai.com/share/78a0be68-9623-41f9-8564-3085aae512c4)
 
 ## Installation
 To get started, clone the repository and install the dependencies.
