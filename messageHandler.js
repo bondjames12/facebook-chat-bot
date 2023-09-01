@@ -14,15 +14,16 @@ async function handleMessage(api, message) {
                 let trigger = false;
 
                 // if message contains tag of bot ID set trigger to true OR is a reply to bot
-                if ((message.mentions && message.mentions[api.getCurrentUserID()]) || (message.messageReply && message.messageReply == api.getCurrentUserID())) {
+                if ((message.mentions && message.mentions[api.getCurrentUserID()]) || (message.messageReply && message.messageReply.senderID == api.getCurrentUserID())) {
                     trigger = true;
                 }
 
                 // pass in true trigger value to bot to start wake cylce
                 api.getUserInfo(message.senderID, async (err, arr) => {
-                    let response = await chatBot.smartBot(message.body, arr[message.senderID].name, trigger, stayOnFor, message.threadID);
+                    if (err) console.error("Error getting user info!")
+                    let response = await chatBot.smartBot(message.body, arr[message.senderID].name, trigger, stayOnFor, message.threadID, message.messageID, api);
 
-                    if (response.length > 0) {
+                    if (response.length > 0 && response.slice(0,1) != "-") {
                         api.sendMessage(response, message.threadID, () => {
                             trigger = false;
                         }, message.messageID);

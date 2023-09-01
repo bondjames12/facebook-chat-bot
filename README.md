@@ -45,7 +45,7 @@ To start the bot, run:
 
 From within a Faceook chat window:
 
-`-pic [prompt]` creates and replies with an AI generated image
+`-pic [prompt]` creates and replies with an AI generated image (natural language prompts also work e.g. "send me a picture of a tree")
 
 `@[name]` tagging the bot account will trigger a wake cycle
 

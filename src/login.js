@@ -26,6 +26,7 @@ async function getModifiedCookie() {
         }
         return item;
     });
+    
 }
 
 module.exports = getModifiedCookie;
