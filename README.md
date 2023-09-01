@@ -23,9 +23,10 @@ To get started, clone the repository and install the dependencies.
 `npm install`
 
 ## Usage
-To start the bot, run:
 
 You will need to have [Node.js®](https://nodejs.org/en) installed.
+
+To start the bot, run:
 
 `node main.js`
 
