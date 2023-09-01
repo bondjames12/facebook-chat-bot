@@ -348,10 +348,10 @@ function calculateMathExpression(str) {
     return result;
 }
 
-function cat(bInput) {
+function cat(numOfBalloons) {
 
-    if (isNaN(bInput)) {
-        return "I'm sorry, you're trying to tie \"" + bInput + "\" balloons to a cat?? That isn't even a number!!";
+    if (isNaN(numOfBalloons)) {
+        return "I'm sorry, you're trying to tie \"" + numOfBalloons + "\" balloons to a cat?? That isn't even a number!!";
     }
 
     // Constants
@@ -363,11 +363,10 @@ function cat(bInput) {
     const V_BALLOON = 0.0121; // Volume of each balloon, in m^3
     const CAT_WEIGHT = 4.5; // Weight of the cat, in kg
 
-    const nBalloons = bInput;  // Number of balloons
-    const vTotalBalloons = nBalloons * V_BALLOON;  // Total volume of balloons
+    const TOTAL_BALLOON_VOLUME = numOfBalloons * V_BALLOON;  // Total volume of balloons
 
-    const altitudes = [];  // Array to store altitude values
-    const bchart = [];     // Array to store buoyancy values
+    const ALTITUDES = [];  // Array to store altitude values
+    const BUOYANCY_CHART = [];     // Array to store buoyancy values
 
     // Calculate buoyancy at different altitudes up to the Karman line
     for (let h = 0; h <= 100000; h += 1) {
@@ -377,7 +376,7 @@ function cat(bInput) {
         const RHO = P_CURRENT * M_AIR / (R_IDEAL * T_CURRENT);
 
         // Calculate buoyant force from balloons only
-        const F_BUOYANCY_BALLOONS = RHO * vTotalBalloons * GRAVITY;
+        const F_BUOYANCY_BALLOONS = RHO * TOTAL_BALLOON_VOLUME * GRAVITY;
         // Net buoyant force after considering the cat's weight
         const F_NET = F_BUOYANCY_BALLOONS - CAT_WEIGHT * GRAVITY;
 
@@ -385,22 +384,22 @@ function cat(bInput) {
             break;
         }
 
-        altitudes.push(h);
-        bchart.push(F_NET.toFixed(8));
+        ALTITUDES.push(h);
+        BUOYANCY_CHART.push(F_NET.toFixed(8));
     }
 
-    if (altitudes.length == 0) {
-        return "You tied " + bInput + " balloons to the cat, but it didn't gain any altitude!";
+    if (ALTITUDES.length == 0) {
+        return "You tied " + numOfBalloons + " balloons to the cat, but it didn't gain any altitude!";
     }
 
     const METERS_TO_FEET = 3.28084;
-    const finalAltMeters = altitudes[altitudes.length - 1];
-    const finalAltFeet = Math.round(finalAltMeters * METERS_TO_FEET);
+    const FINAL_ALT_METERS = ALTITUDES[ALTITUDES.length - 1];
+    const FINAL_ALT_FEET = Math.round(FINAL_ALT_METERS * METERS_TO_FEET);
 
-    if (finalAltMeters >= 99999) {
-        return "CONGRATULATIONS YOUR CAT MADE IT TO OUTER SPACE! #SPACEKITTY\n\n The final altitude of the cat is over " + finalAltMeters.toLocaleString() + " meters, or " + finalAltFeet.toLocaleString() + " feet, which is considered the boundary of space, called the Karman Line!";
+    if (FINAL_ALT_METERS >= 99999) {
+        return "CONGRATULATIONS YOUR CAT MADE IT TO OUTER SPACE! #SPACEKITTY\n\n The final altitude of the cat is over " + FINAL_ALT_METERS.toLocaleString() + " meters, or " + FINAL_ALT_FEET.toLocaleString() + " feet, which is considered the boundary of space, called the Karman Line!";
     } else {
-        return "You tied " + bInput + " balloons to the cat and it reached an altitude of " + finalAltMeters.toLocaleString() + " meters, or " + finalAltFeet.toLocaleString() + " feet.";
+        return "You tied " + numOfBalloons + " balloons to the cat and it reached an altitude of " + FINAL_ALT_METERS.toLocaleString() + " meters, or " + FINAL_ALT_FEET.toLocaleString() + " feet.";
     }
 }
 
