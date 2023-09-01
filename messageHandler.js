@@ -19,19 +19,37 @@ Thread ID: ${message.threadID}\n`);
                     trigger = true;
                 }
 
+                // get name/nickname used in tag so it can be passed to the AI
                 if(message.mentions && message.mentions[api.getCurrentUserID()]){
                     nickName = message.mentions[api.getCurrentUserID()]
                 }
+
+                // if no tag name, use whatever name is defined in the environment variable
                 else{
                     nickName = process.env.BOT_NAME
                 }
 
-                // pass in true trigger value to bot to start wake cylce
+                // get sender's name and pass to bot inside callback
                 api.getUserInfo(message.senderID, async (err, arr) => {
                     if (err) console.error("Error getting user info!")
+
+                    /* 
+                    Arguments:
+                    -message, 
+                    -message sender's name, 
+                    -the tag/nick name, 
+                    -how many messages in this wake cycle
+                    -trigger true to trigger a reply - false adds message to thread history but does not trigger a wake/reply cycle
+                    -messageID
+                    -threadID
+                    -api - to call chat api functions inside smartBot file
+                    */
                     let response = await chatBot.smartBot(message.body, arr[message.senderID].name, nickName, trigger, stayOnFor, message.threadID, message.messageID, api);
 
+                    // smartBot function replies with -pic[prompt] if prompted to make picture. This statement just blocks that reply
                     if (response.length > 0 && response.slice(0,1) != "-") {
+
+                        // send AI reply/response to thread, resetting the trigger variable on callback and sending as a message_reply
                         api.sendMessage(response, message.threadID, () => {
                             trigger = false;
                         }, message.messageID);
@@ -52,6 +70,7 @@ Thread ID: ${message.threadID}\n`);
                 api.sendMessage(result.toString(), message.threadID, message.messageID);
             }
 
+            // cat
             if (message.body.slice(0, 5).trim() == "-cat") {
                 result = calculate.cat(message.body.slice(4).trim());
                 api.sendMessage(result, message.threadID, message.messageID);
