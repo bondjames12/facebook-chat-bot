@@ -113,7 +113,7 @@ async function smartBot(prompt, n, nick, trigger, stayOn, threadID, id2, api) {
 
     // if trigger argument is true then trigger a reply
     if (trigger == true) {
-        threadState.turnedOn = 1;
+        threadState.turnedOn = 0;
         console.log(`Trigger activated for thread ${threadID}: Bot turned ON`);
     }
 
@@ -135,7 +135,7 @@ If a user requests a picture in any way, reply with "-pic" followed by whatever 
     let replyText = '';
 
     // check if bot is supposed to reply given stayOn number of messages to respond to in a row and cooldown
-    if (threadState.turnedOn < stayOn && currentTime - threadState.lastReplied > COOLDOWN_TIME_MS) {
+    if (threadState.turnedOn <= stayOn && currentTime - threadState.lastReplied > COOLDOWN_TIME_MS) {
 
         console.log(`Bot is responding in thread ${threadID} as it's within the limit and cooldown period.`);
 

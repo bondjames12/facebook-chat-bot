@@ -45,6 +45,20 @@ Here are the available commands for the bot:
 | `-math [expression]`    | Calculates the result of the given math expression.       |
 | `-cat [number]`         | Calculates how high a cat will go if N number of balloons were tied to it. |
 
+# .env Settings
+
+Settings you can configure from within your .env file [(see example)](https://github.com/castey/facebook-chat-bot/blob/main/.env.example)
+
+| Command                 | Description                                               |
+|-------------------------|-----------------------------------------------------------|
+| `FB_EMAIL`              | Email address for facebook account. |
+| `FB_PASSWORD`           | Password for facebook account.      |
+| `BOT_NAME`              | Choose a custom name for the AI to go by - optional but might improve performance slightly if you give it the same name as the account you're running the bot from. |
+| `STAY_ON_FOR`           | Number of messages the AI will reply to during a wake cycle. |
+| `COOLDOWN`              | Amount of time the AI waits between choosing to respond to messages during a wake cycle. |
+| `HISTORY_LENGTH`        | Length of past messages to give the AI as context. |
+| `SAVE_AI_PICS`          | boolean: `true/false` saves AI generated pictures to a subdirectory. |
+
 ## Dependencies
 
 -dotenv
