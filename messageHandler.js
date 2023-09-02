@@ -34,7 +34,7 @@ Thread ID: ${message.threadID}\n`);
                     if (err) console.error("Error getting user info!")
 
                     /* 
-                    Arguments:
+                    smartBot function Arguments:
                     -message, 
                     -message sender's name, 
                     -the tag/nick name, 
@@ -44,6 +44,7 @@ Thread ID: ${message.threadID}\n`);
                     -threadID
                     -api - to call chat api functions inside smartBot file
                     */
+
                     let response = await chatBot.smartBot(message.body, arr[message.senderID].name, nickName, trigger, stayOnFor, message.threadID, message.messageID, api);
 
                     // smartBot function replies with -pic[prompt] if prompted to make picture. This statement just blocks that reply
