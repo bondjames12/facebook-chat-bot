@@ -5,9 +5,8 @@ async function handleMessage(api, message) {
     switch (message.type) {
         case "message":
         case "message_reply":
-            
-            console.log(`Message: ${message.body.replace(/\n+/g, ' ')} 
-Thread ID: ${message.threadID}\n`);
+
+            console.log(`Message: ${message.body.replace(/\n+/g, ' ')}\nThread ID: ${message.threadID}\n`);
 
             // handle message to the bot
             if (message.body.length > 0 && message.senderID && message.body.slice(0,1) != "-" && message.body.slice(0,1) != "/") {
