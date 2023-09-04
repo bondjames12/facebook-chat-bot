@@ -53,7 +53,7 @@ const startLogin = async () => {
 
     api.listenMqtt((err, message) => {
       if (err) console.error("Listening Error!");
-      if (message.type) {
+      if (message && message.type) {
         handleMessage(api, message);
       } else {
         console.error("Type error!\n" + message);
