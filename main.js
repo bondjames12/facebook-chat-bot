@@ -55,8 +55,11 @@ const startLogin = async () => {
       if (err) console.error("Listening Error!");
       if (message && message.type) {
         handleMessage(api, message);
-      } else {
+      } else if (message && !message.type){
         console.error("Type error!\n" + message);
+      }
+      else {
+        console.error("Unknown error!");
       }
     });
   });
