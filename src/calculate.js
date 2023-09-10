@@ -376,4 +376,46 @@ function cat(numOfBalloons) {
     return FINAL_ALT_METERS >= 99999 ? `CONGRATULATIONS YOUR CAT MADE IT TO OUTER SPACE! #SPACEKITTY\n\n The final altitude of the cat is over ${FINAL_ALT_METERS.toLocaleString()} meters, or ${WHOLE_FEET} feet ${INCHES} inches, which is considered the boundary of space, called the Karman Line!` : `You tied ${numOfBalloons} balloons to the cat and it reached an altitude of ${FINAL_ALT_METERS.toLocaleString()} meters, or ${WHOLE_FEET.toLocaleString()} feet and ${INCHES} inches.`;
 }
 
-module.exports = { calculateMathExpression, cat };
+function formatDuration(durationInSeconds) {
+    const minute = 60;
+    const hour = minute * 60;
+    const day = hour * 24;
+    const week = day * 7;
+    const year = day * 365; 
+
+    let remainingTime = durationInSeconds;
+    let result = [];
+
+    if (remainingTime >= year) {
+        const years = Math.floor(remainingTime / year);
+        result.push(`${years} year${years > 1 ? 's' : ''}`);
+        remainingTime %= year;
+    }
+    if (remainingTime >= week) {
+        const weeks = Math.floor(remainingTime / week);
+        result.push(`${weeks} week${weeks > 1 ? 's' : ''}`);
+        remainingTime %= week;
+    }
+    if (remainingTime >= day) {
+        const days = Math.floor(remainingTime / day);
+        result.push(`${days} day${days > 1 ? 's' : ''}`);
+        remainingTime %= day;
+    }
+    if (remainingTime >= hour) {
+        const hours = Math.floor(remainingTime / hour);
+        result.push(`${hours} hour${hours > 1 ? 's' : ''}`);
+        remainingTime %= hour;
+    }
+    if (remainingTime >= minute) {
+        const minutes = Math.floor(remainingTime / minute);
+        result.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
+        remainingTime %= minute;
+    }
+    if (remainingTime > 0 || result.length === 0) {
+        result.push(`${remainingTime} second${remainingTime !== 1 ? 's' : ''}`);
+    }
+
+    return result.join(', ').replace(/,([^,]*)$/, ' and$1');
+}
+
+module.exports = { calculateMathExpression, cat, formatDuration };
