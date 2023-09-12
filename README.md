@@ -1,17 +1,19 @@
 # Facebook Chat Bot
 ## Overview
-This Node.js project uses the [Unofficial Facebook Chat API](https://github.com/Schmavery/facebook-chat-api) and the [OpenAI API](https://platform.openai.com/docs/introduction) to run a ChatGPT style bot from a Facebook account.   
+This Node.js project uses the [Unofficial Facebook Chat API](https://github.com/Schmavery/facebook-chat-api) and the [OpenAI API](https://platform.openai.com/docs/introduction) to run a ChatGPT style bot with AI image generation from a Facebook account. Also includes as few fun features.
 
 Read the documentation on the Unoffical Facebook Chat API to learn how to customize bot functionality beyond the scope of this project.
 
 ## Features
 -ChatGPT style bot that can be added to multiple groups with unique tracking
 
--DALL·E 2 style image generation in Facebook chat
+-DALL·E 2 style image generation
 
 -Simple calculator 
 
 -Cat balloon calculator [(read more)](https://chat.openai.com/share/78a0be68-9623-41f9-8564-3085aae512c4)
+
+-Leekspin
 
 ## Installation
 To get started, clone the repository and install the dependencies.
@@ -44,6 +46,7 @@ Here are the available commands for the bot:
 | `@[name]`               | Tagging the bot account will trigger a wake cycle.        |
 | `-math [expression]`    | Calculates the result of the given math expression.       |
 | `-cat [number]`         | Calculates how high a cat will go if N number of balloons were tied to it. |
+| `leekspin [start/stop]` | Sends the leekspin gif. Unique timers for each sender in each thread. |
 
 # .env Settings
 
