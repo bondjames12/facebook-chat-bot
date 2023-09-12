@@ -4,6 +4,13 @@ const fs = require('fs');
 
 let leekSpinUsers = {};
 
+function getUserSpinStartTime(senderID, threadID) {
+    if (!leekSpinUsers[senderID]) {
+        return 0;
+    }
+    return leekSpinUsers[senderID][threadID] || 0;
+}
+
 async function handleMessage(api, message) {
     switch (message.type) {
         case "message":
@@ -78,27 +85,34 @@ async function handleMessage(api, message) {
                 result = calculate.cat(message.body.slice(4).trim());
                 api.sendMessage(result, message.threadID, message.messageID);
             }
-            
+
             if (message.body.toLowerCase().startsWith("leekspin")) {
+
                 const readStream = fs.createReadStream("./resources/leekspin.gif");
-                let userSpinStartTime = leekSpinUsers[message.senderID] || 0;
+                const userSpinStartTime = getUserSpinStartTime(message.senderID, message.threadID);
+
                 const command = message.body.toLowerCase().slice(9);
                 let msg;
-            
+
                 switch (command) {
                     case 'start':
-                        leekSpinUsers[message.senderID] = new Date();
+                        if (!leekSpinUsers[message.senderID]) {
+                            leekSpinUsers[message.senderID] = {};
+                        }
+                        leekSpinUsers[message.senderID][message.threadID] = new Date();
                         msg = {
                             body: "Spinning started...",
                             attachment: readStream,
                         };
                         break;
-            
+
                     case 'stop':
-                        leekSpinUsers[message.senderID] = 0;
+                        if (leekSpinUsers[message.senderID]) {
+                            leekSpinUsers[message.senderID][message.threadID] = 0;
+                        }
                         msg = { body: "Spinning stopped..." };
                         break;
-            
+
                     default:
                         if (message.body.toLowerCase() === "leekspin") {
                             if (userSpinStartTime !== 0) {
@@ -114,12 +128,12 @@ async function handleMessage(api, message) {
                         }
                         break;
                 }
-            
+
                 if (msg) {
                     api.sendMessage(msg, message.threadID, message.messageID);
                 }
             }
-        
+
             break;
 
         default:
