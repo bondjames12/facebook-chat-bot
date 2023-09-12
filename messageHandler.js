@@ -78,10 +78,6 @@ async function handleMessage(api, message) {
                 result = calculate.cat(message.body.slice(4).trim());
                 api.sendMessage(result, message.threadID, message.messageID);
             }
-
-            function formatDuration(durationInSeconds) {
-                // ... (as in the previous answer)
-            }
             
             if (message.body.toLowerCase().startsWith("leekspin")) {
                 const readStream = fs.createReadStream("./resources/leekspin.gif");
@@ -123,9 +119,7 @@ async function handleMessage(api, message) {
                     api.sendMessage(msg, message.threadID, message.messageID);
                 }
             }
-            
-
-
+        
             break;
 
         default:
