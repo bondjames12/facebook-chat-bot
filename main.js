@@ -2,6 +2,7 @@ const fs = require('fs');
 const login = require('facebook-chat-api');
 const getModifiedCookie = require('./src/login');
 const readline = require('readline');
+const handleMessage = require('./messageHandler');
 
 const loadEnv = () => {
   if (!fs.existsSync('.env')) {
@@ -47,7 +48,6 @@ const promptForEnvVars = (missingVars) => {
 
 const startLogin = async () => {
   const modifiedFbCookies = await getModifiedCookie();
-  const handleMessage = require('./messageHandler');
   login(credential = { appState: modifiedFbCookies }, (err, api) => {
     if (err) return console.error(err);
 
