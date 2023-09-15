@@ -74,7 +74,8 @@ async function getPicResponse(api, prompt, id1, id2) {
         }
     }
     catch (e) {
-        api.sendMessage("API Error!\n" + e.error.message, id1, id2);
+        api.sendMessage("API Error!", id1, id2);
+        console.error(e);
     }
 }
 
