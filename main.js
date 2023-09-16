@@ -63,7 +63,16 @@ const startLogin = async () => {
       if (err) console.error("Listening Error!");
 
       if (message && message.type) {
-        handleMessage(api, message);
+        switch (message.type) {
+          case "message":
+          case "message_reply":
+
+            handleMessage(api, message);
+            break;
+
+          default:
+          //console.log(`Alternate message type: ${message.type} in thread ID: ${message.threadID}`);
+        }
       } else if (message && !message.type) { // some light error handling
         console.error("Type error!\n" + message);
       }
