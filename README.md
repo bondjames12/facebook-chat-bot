@@ -11,7 +11,7 @@ Read the documentation on the Unoffical Facebook Chat API to learn how to custom
 
 -Simple calculator 
 
--Cat balloon calculator [(read more)](https://chat.openai.com/share/78a0be68-9623-41f9-8564-3085aae512c4)
+-Cat balloon calculator [(read more)](https://chat.openai.com/share/3bce0d7c-9715-4a0e-8ce5-5ba70426292f)
 
 -Leekspin
 
