@@ -66,9 +66,7 @@ async function handleMessage(api, message) {
 
     // handle image generation
     if (message.body.slice(0, 5).trim() == "-pic") {
-
         chatBot.getPicResponse(api, message.body.slice(4).trim(), message.threadID, message.messageID);
-
     }
 
     // calculator
