@@ -2,10 +2,9 @@ const fs = require('fs');
 const login = require('facebook-chat-api');
 const getModifiedCookie = require('./src/login');
 const readline = require('readline');
-const handleMessage = require('./messageHandler');
 
 // check if .env file exists and if not copy from the .env.example file and prompt for email/password/API key
-const loadEnv = () => {
+function loadEnv(){
   if (!fs.existsSync('.env')) {
     fs.copyFileSync('.env.example', '.env');
   }
@@ -25,13 +24,13 @@ const loadEnv = () => {
 };
 
 // function to prompt user for missing env variables in console
-const promptForEnvVars = (missingVars) => {
+function promptForEnvVars(missingVars){
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
   });
 
-  const promptNextVar = (index = 0) => {
+  function promptNextVar(index = 0){
     if (index >= missingVars.length) {
       rl.close();
       startLogin();
@@ -49,7 +48,9 @@ const promptForEnvVars = (missingVars) => {
 };
 
 // begin logging in
-const startLogin = async () => {
+async function startLogin(){
+
+  const handleMessage = require('./messageHandler');
 
   // use headless browser function to get formatted login cookie from facebook
   const modifiedFbCookies = await getModifiedCookie();
