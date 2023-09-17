@@ -377,45 +377,40 @@ function cat(numOfBalloons) {
 }
 
 function formatDuration(durationInSeconds) {
-    const minute = 60;
-    const hour = minute * 60;
-    const day = hour * 24;
-    const week = day * 7;
-    const year = day * 365; 
+    if (durationInSeconds < 0) {
+        return "Invalid duration";
+    }
+
+    const units = [
+        { label: "year", seconds: 365 * 24 * 60 * 60 },
+        { label: "week", seconds: 7 * 24 * 60 * 60 },
+        { label: "day", seconds: 24 * 60 * 60 },
+        { label: "hour", seconds: 60 * 60 },
+        { label: "minute", seconds: 60 },
+        { label: "second", seconds: 1 }
+    ];
 
     let remainingTime = durationInSeconds;
-    let result = [];
+    const result = [];
 
-    if (remainingTime >= year) {
-        const years = Math.floor(remainingTime / year);
-        result.push(`${years} year${years > 1 ? 's' : ''}`);
-        remainingTime %= year;
-    }
-    if (remainingTime >= week) {
-        const weeks = Math.floor(remainingTime / week);
-        result.push(`${weeks} week${weeks > 1 ? 's' : ''}`);
-        remainingTime %= week;
-    }
-    if (remainingTime >= day) {
-        const days = Math.floor(remainingTime / day);
-        result.push(`${days} day${days > 1 ? 's' : ''}`);
-        remainingTime %= day;
-    }
-    if (remainingTime >= hour) {
-        const hours = Math.floor(remainingTime / hour);
-        result.push(`${hours} hour${hours > 1 ? 's' : ''}`);
-        remainingTime %= hour;
-    }
-    if (remainingTime >= minute) {
-        const minutes = Math.floor(remainingTime / minute);
-        result.push(`${minutes} minute${minutes > 1 ? 's' : ''}`);
-        remainingTime %= minute;
-    }
-    if (remainingTime > 0 || result.length === 0) {
-        result.push(`${remainingTime} second${remainingTime !== 1 ? 's' : ''}`);
+    for (const unit of units) {
+        if (remainingTime >= unit.seconds) {
+            const value = Math.floor(remainingTime / unit.seconds);
+            result.push(`${value} ${unit.label}${value !== 1 ? 's' : ''}`);
+            remainingTime %= unit.seconds;
+        }
     }
 
-    return result.join(', ').replace(/,([^,]*)$/, ' and$1');
+    if (result.length === 0) result.push('0 seconds');
+    
+    if (result.length > 1) {
+        const lastItem = result.pop();
+        return `${result.join(', ')} and ${lastItem}`;
+    }
+    return result[0];
 }
+
+
+
 
 module.exports = { calculateMathExpression, cat, formatDuration };
