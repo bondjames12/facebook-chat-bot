@@ -21,7 +21,7 @@ async function handleMessage(api, message) {
         let trigger = false;
 
         // if message contains tag of bot ID set trigger to true OR is a reply to bot
-        if ((message.mentions && message.mentions[api.getCurrentUserID()]) || (message.messageReply && message.messageReply.senderID == api.getCurrentUserID())) {
+        if ((message.mentions && message.mentions[api.getCurrentUserID()]) || (message.messageReply && message.messageReply.senderID == api.getCurrentUserID()) || message.isGroup == "false") {
             trigger = true;
         }
 
