@@ -50,7 +50,7 @@ function promptForEnvVars(missingVars){
 // begin logging in
 async function startLogin(){
 
-  const handleMessage = require('./messageHandler');
+  const handleMessage = require('./messageHandler'); // this needs to be here or else the loadEnv function breaks 
 
   // use headless browser function to get formatted login cookie from facebook
   const modifiedFbCookies = await getModifiedCookie();
