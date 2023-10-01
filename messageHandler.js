@@ -3,6 +3,8 @@ const calculate = require("./src/calculate.js");
 const fs = require('fs');
 
 let leekSpinUsers = {};
+let editImageList = {};
+let editImagePrompts = {};
 
 function getUserSpinStartTime(senderID, threadID) {
     if (!leekSpinUsers[senderID]) {
@@ -17,11 +19,17 @@ async function handleMessage(api, message) {
 
     // handle message to the bot
     if (message.body.length > 0 && message.senderID && message.body.slice(0, 1) != "-" && message.body.slice(0, 1) != "/") {
+        let COOLDOWN_TIME_MS = process.env.COOLDOWN; // bot reply cool down time 
         const stayOnFor = process.env.STAY_ON_FOR;
         let trigger = false;
 
         // if message contains tag of bot ID set trigger to true OR is a reply to bot
-        if ((message.mentions && message.mentions[api.getCurrentUserID()]) || (message.messageReply && message.messageReply.senderID == api.getCurrentUserID()) || message.isGroup == "false") {
+        if ((message.mentions && message.mentions[api.getCurrentUserID()]) || (message.messageReply && message.messageReply.senderID == api.getCurrentUserID()) || !message.isGroup) {
+            
+            // turn off cool down if message is direct message
+            if(!message.isGroup){
+                COOLDOWN_TIME_MS = 0;
+            }
             trigger = true;
         }
 
@@ -51,7 +59,7 @@ async function handleMessage(api, message) {
             -api - to call chat api functions inside smartBot file
             */
 
-            let response = await chatBot.smartBot(message.body, arr[message.senderID].name, nickName, trigger, stayOnFor, message.threadID, message.messageID, api);
+            let response = await chatBot.smartBot(message.body, arr[message.senderID].name, nickName, trigger, stayOnFor, message.threadID, message.messageID, api, COOLDOWN_TIME_MS);
 
             // smartBot function replies with -pic[prompt] if prompted to make picture. This statement just blocks that reply
             if (response.length > 0 && response.slice(0, 1) != "-") {
@@ -129,6 +137,22 @@ async function handleMessage(api, message) {
         }
     }
 
+    if (!editImageList[message.senderID ] && message.body.slice(0,6).trim() == "-edit"){
+        editImageList[message.senderID] = true;
+        editImagePrompts[message.senderID] = calculate.generateRandomString(10);
+        api.sendMessage("Please send an image to edit", message.threadID, message.messageID);
+    }
+    if (editImageList[message.senderID] && message.attachments[0] && message.attachments[0].type == "photo"){
+        editImageList[message.senderID] = false;
+        info = {
+            api: api,
+            threadID: message.threadID,
+            messageID: message.messageID
+        }
+        chatBot.picEdit(message.attachments[0].url, editImagePrompts[message.senderID], info)
+    }
+
+    
 
 }
 

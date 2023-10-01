@@ -1,12 +1,12 @@
 const { OpenAI } = require("openai");
 const axios = require('axios');
+const sharp = require('sharp');
 const fs = require('fs');
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
 const threads = {}; // threads object
-const COOLDOWN_TIME_MS = process.env.COOLDOWN; // bot reply cool down time 
 
 async function getPicResponse(api, prompt, id1, id2) {
 
@@ -74,7 +74,7 @@ async function getPicResponse(api, prompt, id1, id2) {
         }
     }
     catch (e) {
-        api.sendMessage("API Error!", id1, id2);
+        api.sendMessage("I'd rather not...", id1, id2);
         console.error(e);
     }
 }
@@ -90,7 +90,7 @@ async function simpleBot(prompt, tokens, temperature) {
     return response.choices[0].text;
 }
 
-async function smartBot(prompt, n, nick, trigger, stayOn, threadID, id2, api) {
+async function smartBot(prompt, n, nick, trigger, stayOn, threadID, id2, api, COOLDOWN_TIME_MS) {
 
     // current time for cooldown calculation
     const currentTime = Date.now();
@@ -126,7 +126,8 @@ You are their friendly assistant. Your name is ${nick}.
 Do not say you are AI or anything like that. For all intents and purposes you are a human being.
 Do not ever say "message sent by" or anything like that at all. This is very important. Simply reply with a conversational message 
 If a user says bye in any way, reply with 'bye' and only 'bye'
-If a user requests an image in any way, reply with "-pic" followed by whatever their request is. Pay attention to the format they request and include it in the command e.g. paintng/photograph/drawing etc. if it's an explicit image request then make something up that is close to what they asked for but humorous and subverts expectations avoiding trigger words like nude, sex, curse words, etc. it is very important that your image replies start with -pic and follow with an image generation prompt`});
+If a user requests an image in any way, reply with "-pic" followed by whatever their request is. Pay attention to the format they request and include it in the command e.g. paintng/photograph/drawing etc. if it's an explicit image request then make something up that is close to what they asked for but humorous and subverts expectations avoiding trigger words like "nude" or variations, "sex", curse words, etc. it is very important that your image replies start with -pic and follow with an image generation prompt`
+});
     }
 
     // push current prompt to array
@@ -181,12 +182,93 @@ If a user requests an image in any way, reply with "-pic" followed by whatever t
     return replyText;
 }
 
-async function picEdit(){
+async function picEdit(imageUrl, fileName, info) {
+    try {
+        // 1. Download the image as a stream
+        const response = await axios.get(imageUrl, { responseType: 'stream' });
+        
+        let processedImage = sharp();
+        response.data.pipe(processedImage);
+        
+        // 2. Get image metadata and process the image
+        const metadata = await processedImage.metadata();
+        const side = Math.min(metadata.width, metadata.height);
 
+        processedImage = processedImage
+            .png()
+            .extract({
+                left: Math.round((metadata.width - side) / 2),
+                top: Math.round((metadata.height - side) / 2),
+                width: side,
+                height: side
+            })
+            
+            .resize(1024, 1024);
+
+        // Convert the processed image to a file
+        const outputFilePath = `./temp_${fileName}.png`;
+        await processedImage.toFile(outputFilePath);
+
+        // 3. Send to OpenAI endpoint
+        const variationResponse = await openai.images.createVariation({
+            image: fs.createReadStream(outputFilePath),
+        });
+
+        // Clean up temporary file
+        fs.unlinkSync(outputFilePath);
+
+        // log respons
+        console.log(variationResponse);
+
+        const rsp = await axios({
+            method: "GET",
+            url: variationResponse.data[0].url,
+            responseType: "stream",
+        });
+            // pic save path
+            const path = './AIpics/';
+
+            // create directory if it does not exist
+            if (!fs.existsSync(path)) {
+                fs.mkdirSync(path, { recursive: true });
+            }
+
+            // download the picture
+            fileName = fileName + ".png";
+            rsp.data.pipe(fs.createWriteStream(path + fileName).on("finish", function () {
+                const readStream = fs.createReadStream(path + fileName); //prepare to send to messenger
+
+                // format the message to include the picture and snarky remark + prompt
+                const msg = {
+                    body: "Here we are...",
+                    attachment: readStream,
+                };
+
+                // SEND IT
+                info.api.sendMessage(msg, info.threadID, info.messageID);
+
+                // delete the file if process.env.SAVE_AI_PICS is not true
+                if (process.env.SAVE_AI_PICS !== 'true') {
+                    fs.unlink(path + fileName, function (err) {
+                        if (err) {
+                            console.error("Error deleting file:", err);
+                        }
+                    });
+                }
+
+
+
+            }));
+
+    } catch (error) {
+        console.error("Error processing the image:", error);
+    }
 }
+
 
 module.exports = {
     simpleBot,
     smartBot,
-    getPicResponse
+    getPicResponse,
+    picEdit
 };
