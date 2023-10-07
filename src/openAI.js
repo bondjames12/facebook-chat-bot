@@ -146,7 +146,7 @@ If a user requests an image in any way, reply with "-pic" followed by whatever t
         const reply = await openai.chat.completions.create({
             model: "gpt-4",
             messages: threadState.promptArray,
-            max_tokens: 100,
+            max_tokens: 2000,
             temperature: 1,
         });
         replyText = reply.choices[0].message.content
