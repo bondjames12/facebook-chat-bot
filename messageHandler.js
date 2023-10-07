@@ -4,13 +4,6 @@ const fs = require('fs');
 
 let leekSpinUsers = {};
 
-function getUserSpinStartTime(senderID, threadID) {
-    if (!leekSpinUsers[senderID]) {
-        return 0;
-    }
-    return leekSpinUsers[senderID][threadID] || 0;
-}
-
 async function handleMessage(api, message) {
 
     // function to get bot account name
@@ -84,8 +77,9 @@ async function handleMessage(api, message) {
 
     if (message.body.toLowerCase().startsWith("leekspin")) {
 
+
         const readStream = fs.createReadStream("./resources/leekspin.gif");
-        const userSpinStartTime = getUserSpinStartTime(message.senderID, message.threadID);
+        const userSpinStartTime = leekSpinUsers[message.senderID] ? (leekSpinUsers[message.senderID][message.threadID] || 0) : 0;
 
         const command = message.body.toLowerCase().slice(9);
         let msg;
