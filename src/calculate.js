@@ -95,7 +95,7 @@ function calculateMathExpression(str) {
             switch (operator) {
                 case "^":
                     if (num2.toString().includes(".")) {
-                        throw new Error("Yeah, we're not doing this.");
+                        return "Yeah, we're not doing this.";
                     }
                     result = Math.pow(num1, num2);
                     break;
@@ -121,7 +121,7 @@ function calculateMathExpression(str) {
         const num1 = parseFloat(match[1]);
         if (Math.sign(num1) == -1) {
 
-            throw new Error("You tried taking the factorial of a negative number. Here's a good video explaining how that works: https://youtu.be/dGnIJFzkLI4");
+            return "You tried taking the factorial of a negative number. Here's a good video explaining how that works: https://youtu.be/dGnIJFzkLI4";
 
         }
         const operator = match[2];
@@ -172,7 +172,7 @@ function calculateMathExpression(str) {
         switch (operator) {
             case 'sqrt':
                 if (Math.sign(num) == -1) {
-                    throw new Error("Just because all your friends are imaginary doesn't mean your numbers will be.");
+                    return "Just because all your friends are imaginary doesn't mean your numbers will be.";
                 }
                 result = Math.sqrt(num);
                 break;
@@ -221,19 +221,19 @@ function calculateMathExpression(str) {
             case '/':
                 if (num2 === 0 && num1 === 0) {
 
-                    throw new Error("error");
+                    return "error";
 
                 }
 
                 if (num2 === 0) {
-                    throw new Error("Are you trying to tear a hole in the fabric of space??");
+                    return "Are you trying to tear a hole in the fabric of space??";
                 }
 
                 result = num1 / num2;
                 break;
             case '%':
                 if (num2 === 0) {
-                    throw new Error('Do you even know how math works?!?');
+                    return 'Do you even know how math works?!?';
                 }
                 result = num1 % num2;
                 break;
@@ -341,7 +341,7 @@ function calculateMathExpression(str) {
     let result = parseFloat(str);
 
     if (!isFinite(result)) {
-        throw new Error("Overflow error.");
+        return "Overflow error.";
     }
 
     // Return the final result
