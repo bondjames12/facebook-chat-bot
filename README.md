@@ -59,7 +59,8 @@ Settings you can configure from within your .env file [(see example)](https://gi
 | `STAY_ON_FOR`           | Number of messages the AI will reply to during a wake cycle. |
 | `COOLDOWN`              | Amount of time the AI waits between choosing to respond to messages during a wake cycle. |
 | `HISTORY_LENGTH`        | Length of past messages to give the AI as context. |
-| `SAVE_AI_PICS`          | boolean: `true/false` saves AI generated pictures to a subdirectory. |
+| `SAVE_AI_PICS`          | `true` saves AI generated pictures to a subdirectory. |
+| `BOT_PERSONALITY`          | The personality prompt for the bot. |
 
 ## Dependencies
 
