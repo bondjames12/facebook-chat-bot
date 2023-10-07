@@ -1,4 +1,4 @@
-
+// calculate is a bit of a poor name for this but oh well, it does stuff
 
 function calculateMathExpression(str) {
 

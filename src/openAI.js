@@ -172,7 +172,7 @@ If a user requests an image in any way, reply with "-pic" followed by whatever t
    
         if (replyText.slice(0, 4).toLowerCase() == "-pic") {
             console.log(replyText);
-            let imageReplyObj = await getPicResponse(replyText.slice(4).trim());
+            let imageReplyObj = await getPicResponse(replyText.slice(1).trim());
             //console.log(imageReplyObj);
             return imageReplyObj
         }
