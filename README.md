@@ -56,7 +56,6 @@ Settings you can configure from within your .env file [(see example)](https://gi
 |-------------------------|-----------------------------------------------------------|
 | `FB_EMAIL`              | Email address for facebook account. |
 | `FB_PASSWORD`           | Password for facebook account.      |
-| `BOT_NAME`              | Choose a custom name for the AI to go by - optional but might improve performance slightly if you give it the same name as the account you're running the bot from. |
 | `STAY_ON_FOR`           | Number of messages the AI will reply to during a wake cycle. |
 | `COOLDOWN`              | Amount of time the AI waits between choosing to respond to messages during a wake cycle. |
 | `HISTORY_LENGTH`        | Length of past messages to give the AI as context. |
