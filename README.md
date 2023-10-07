@@ -77,8 +77,6 @@ Settings you can configure from within your .env file [(see example)](https://gi
 
 -readline
 
--sharp
-
 ## Screenshots
 
 ![Example Image](AIpics/pic.png)
