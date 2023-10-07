@@ -13,7 +13,8 @@ function calculateMathExpression(str) {
     let d = str.toLowerCase();
 
     if (d.includes(decode(a))) {
-        return `${decode(a)} isn't a ${decode(b)} ${decode(c)}!`;
+        let result = `${decode(a)} isn't a ${decode(b)} ${decode(c)}!`;
+        return { result, explanation };
     }
 
     str = str.replace(/\s/g, '');
@@ -95,7 +96,9 @@ function calculateMathExpression(str) {
             switch (operator) {
                 case "^":
                     if (num2.toString().includes(".")) {
-                        return "Yeah, we're not doing this.";
+                        result = "Yeah, we're not doing this.";
+                        return { result, explanation };
+
                     }
                     result = Math.pow(num1, num2);
                     break;
@@ -109,23 +112,29 @@ function calculateMathExpression(str) {
 
         str = str.replace(parenthesesRegex, (_, expr) => {
             // Evaluate the expression inside the parentheses recursively
-            return calculateMathExpression(expr);
-
+            let ret = calculateMathExpression(expr); // returns .explanation and .result.
+        
+            // Append the explanations from the recursive call to the outer explanation array
+            explanation.push(...ret.explanation);
+        
+            return ret.result;
         });
     }
     //factorial... why am I doing this
     const factorialRegex = /(?<![a-z]|[0-9]|\.)(\-?\d*\.?\d+?)(!)/;
 
     while (factorialRegex.test(str)) {
+        let result;
         const match = factorialRegex.exec(str);
         const num1 = parseFloat(match[1]);
         if (Math.sign(num1) == -1) {
 
-            return "You tried taking the factorial of a negative number. Here's a good video explaining how that works: https://youtu.be/dGnIJFzkLI4";
+            result = "You tried taking the factorial of a negative number. Here's a good video explaining how that works: https://youtu.be/dGnIJFzkLI4";
+            return { result, explanation };
+
 
         }
         const operator = match[2];
-        let result;
 
         switch (operator) {
             case "!":
@@ -156,7 +165,9 @@ function calculateMathExpression(str) {
 
         }
         str = str.replace(match[0], result);
-        explanation.push(`Factorial: ${num1}! = ${result}`);
+
+        num1 === 0 ? explanation.push(`How many ways can you arrange nothing? THINK!!`) : explanation.push(`Factorial: ${num1}! = ${result}`);
+
     }
 
     // Create a regular expression to match mathematical expressions with sqrt
@@ -172,7 +183,9 @@ function calculateMathExpression(str) {
         switch (operator) {
             case 'sqrt':
                 if (Math.sign(num) == -1) {
-                    return "Just because all your friends are imaginary doesn't mean your numbers will be.";
+                    result = "Just because all your friends are imaginary doesn't mean your numbers will be.";
+                    return { result, explanation };
+
                 }
                 result = Math.sqrt(num);
                 break;
@@ -195,6 +208,10 @@ function calculateMathExpression(str) {
 
         switch (operator) {
             case '^':
+                if (num1 == 0 && num2 == 0) {
+                    result = "Look at you! https://www.youtube.com/watch?v=BRRolKTlF6Q";
+                    return { result, explanation };
+                }
                 result = Math.pow(num1, num2);
                 break;
         }
@@ -221,19 +238,23 @@ function calculateMathExpression(str) {
             case '/':
                 if (num2 === 0 && num1 === 0) {
 
-                    return "error";
+                    result = "I'm getting nervous...";
+                    return { result, explanation };
+
 
                 }
 
                 if (num2 === 0) {
-                    return "Are you trying to tear a hole in the fabric of space??";
+                    result = "Are you trying to tear a hole in the fabric of space??";
+                    return { result, explanation };
                 }
 
                 result = num1 / num2;
                 break;
             case '%':
                 if (num2 === 0) {
-                    return 'Do you even know how math works?!?';
+                    result = 'Do you even know how math works?!?';
+                    return { result, explanation };
                 }
                 result = num1 % num2;
                 break;
@@ -341,10 +362,13 @@ function calculateMathExpression(str) {
     let result = parseFloat(str);
 
     if (!isFinite(result)) {
-        return "Overflow error.";
+        result = "Overflow error.";
+        return { result, explanation };
+
     }
 
     // Return the final result
+    result = { result, explanation }
     return result;
 }
 
@@ -402,7 +426,7 @@ function formatDuration(durationInSeconds) {
     }
 
     if (result.length === 0) result.push('0 seconds');
-    
+
     if (result.length > 1) {
         const lastItem = result.pop();
         return `${result.join(', ')} and ${lastItem}`;
