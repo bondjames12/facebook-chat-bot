@@ -78,9 +78,9 @@ Settings you can configure from within your .env file [(see example)](https://gi
 -readline
 
 ## Screenshots
-
-![Example Image](AIpics/pic.png)
-![Example Image](AIpics/bot.png)
+![Example Image](resources/nlp.png)
+![Example Image](resources/pic.png)
+![Example Image](resources/bot.png)
 
 ## Side Notes
 
