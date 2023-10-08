@@ -61,6 +61,7 @@ Settings you can configure from within your .env file [(see example)](https://gi
 | `HISTORY_LENGTH`        | Length of past messages to give the AI as context. |
 | `SAVE_AI_PICS`          | `true` saves AI generated pictures to a subdirectory. |
 | `BOT_PERSONALITY`          | The personality prompt for the bot. |
+| `NUM_IMAGES`          | The number of images to generate from a single prompt. |
 
 ## Dependencies
 

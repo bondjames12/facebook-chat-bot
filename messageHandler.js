@@ -58,7 +58,7 @@ async function handleMessage(api, message) {
 
     // handle image generation
     if (message.body.slice(0, 5).trim() == "-pic") {
-        let msg = await chatBot.getPicResponse(message.body.slice(4).trim());
+        let msg = await chatBot.getPicResponse(message.body.slice(4).trim(), parseInt(process.env.NUM_IMAGES));
         api.sendMessage(msg, message.threadID, message.messageID);
     }
 
