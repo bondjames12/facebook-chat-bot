@@ -86,8 +86,6 @@ Settings you can configure from within your .env file [(see example)](https://gi
 
 ## Side Notes
 
-Using the image generation feature `-pic` saves the generated image to the AIpics subdirectory. 
-
 Running `npm install` will show some vulnerabilities. This is because the dependencies used by the [Unofficial Facebook Chat API](https://github.com/Schmavery/facebook-chat-api) are outdated. This shouldn't be a problem as the project isn't serving to the public.
  
 ## License
