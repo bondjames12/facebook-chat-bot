@@ -141,6 +141,14 @@ If a user requests an image in any way, reply with "-pic" followed by whatever t
 
         console.log(`Bot is responding in thread ${threadID} as it's within the limit and cooldown period.`);
 
+        // increment number of messages bot will reply to in one wake cycle
+        threadState.turnedOn++;
+
+        // Update the last replied time
+        threadState.lastReplied = currentTime;
+
+        console.log(`TurnedOn count incremented for thread ${threadID} to: ${threadState.turnedOn}`);
+
         // send prompt array to openAI
         const reply = await openai.chat.completions.create({
             model: "gpt-4",
@@ -161,14 +169,6 @@ If a user requests an image in any way, reply with "-pic" followed by whatever t
             threadState.promptArray.splice(1, 1);
         }
 
-        // increment number of messages bot will reply to in one wake cycle
-        threadState.turnedOn++;
-
-        // Update the last replied time
-        threadState.lastReplied = currentTime;
-
-        console.log(`TurnedOn count incremented for thread ${threadID} to: ${threadState.turnedOn}`);
-   
         if (replyText.slice(0, 4).toLowerCase() == "-pic") {
             console.log(replyText);
             let imageReplyObj = await getPicResponse(replyText.slice(1).trim(), parseInt(process.env.NUM_IMAGES));
