@@ -157,6 +157,7 @@ If a user requests an image in any way, reply with "-pic" followed by whatever t
             temperature: 1,
         });
         replyText = reply.choices[0].message.content
+        
         // reset turned on to high number so bot sleeps if you say bye to it
         if (replyText.toLowerCase() == "bye") {
             threadState.turnedOn = 100000;
