@@ -8,7 +8,7 @@ const openai = new OpenAI({
 const threads = {}; // threads object
 
 async function getPicResponse(prompt, numberOfImages) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve) => {
         try {
             const picResponse = await openai.images.generate({
                 prompt: prompt,
@@ -72,7 +72,6 @@ async function getPicResponse(prompt, numberOfImages) {
         }
     });
 }
-
 
 async function simpleBot(prompt, tokens, temperature) {
     const response = await openai.createCompletion({
@@ -157,7 +156,7 @@ If a user requests an image in any way, reply with "-pic" followed by whatever t
             temperature: 1,
         });
         replyText = reply.choices[0].message.content
-        
+
         // reset turned on to high number so bot sleeps if you say bye to it
         if (replyText.toLowerCase() == "bye") {
             threadState.turnedOn = 100000;
@@ -170,10 +169,14 @@ If a user requests an image in any way, reply with "-pic" followed by whatever t
             threadState.promptArray.splice(1, 1);
         }
 
+        // check if bot reply is a image generation and intercept it
         if (replyText.slice(0, 4).toLowerCase() == "-pic") {
-            console.log(replyText);
-            let imageReplyObj = await getPicResponse(replyText.slice(1).trim(), parseInt(process.env.NUM_IMAGES));
-            //console.log(imageReplyObj);
+            console.log(replyText + "\n"); // log the prompt
+
+            // pass prompt to image generation function
+            const imageReplyObj = await getPicResponse(replyText.slice(1).trim(), parseInt(process.env.NUM_IMAGES));
+
+            // return object containing generated images
             return imageReplyObj
         }
 
