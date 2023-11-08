@@ -12,8 +12,11 @@ async function getPicResponse(prompt, numberOfImages) {
         try {
             const picResponse = await openai.images.generate({
                 prompt: prompt,
+                model: "dall-e-3",
                 n: numberOfImages,
-                size: "1024x1024",
+                size: "1024x1792",
+                quality: "hd",
+                style: "natural"
             });
 
             if (picResponse.error) {
@@ -58,7 +61,7 @@ async function getPicResponse(prompt, numberOfImages) {
                 }
 
                 const msg = {
-                    body: `uhh here is "${prompt.trim().replace("\"", "\'")}" for whatever reason.`,
+                    body: `Here is "${prompt.trim().replace("\"", "\'")}"`,
                     attachment: attachments
                 };
 
@@ -68,7 +71,7 @@ async function getPicResponse(prompt, numberOfImages) {
             }
         } catch (e) {
             console.error(e);
-            resolve({ body: "I'd rather not..." });
+            resolve({ body: "I ran into an error: " + e });
         }
     });
 }
@@ -84,7 +87,7 @@ async function simpleBot(prompt, tokens, temperature) {
     return response.choices[0].text;
 }
 
-async function smartBot(prompt, n, nick, trigger, threadID) {
+async function smartBot(prompt, n, nick, trigger, threadID, photo) {
 
     // get cool down time and number of messages to reply to in a wake cycle from env
     const STAY_ON_FOR = process.env.STAY_ON_FOR;
@@ -130,7 +133,29 @@ If a user requests an image in any way, reply with "-pic" followed by whatever t
     }
 
     // push current prompt to array
-    threadState.promptArray.push({ role: "user", content: `message sent by ${n}: ${prompt}` });
+    if(!photo){    
+threadState.promptArray.push({ 
+		role: "user", 
+		content: `message sent by ${n}: ${prompt}`
+	});
+} else {
+        threadState.promptArray.push({
+                role: "user",
+        "content": [
+          {
+            "type": "text",
+            "text": `message sent by ${n}: ${prompt}`
+          },
+          {
+            "type": "image_url",
+            "image_url": {
+              "url": `data:image/jpeg;base64,${photo}`
+            }
+          }
+        ]
+       });
+}
+    
 
     // declare variable to hold bot reply
     let replyText = '';
@@ -150,7 +175,7 @@ If a user requests an image in any way, reply with "-pic" followed by whatever t
 
         // send prompt array to openAI
         const reply = await openai.chat.completions.create({
-            model: "gpt-4",
+            model: "gpt-4-vision-preview",
             messages: threadState.promptArray,
             max_tokens: 2000,
             temperature: 1,

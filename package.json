@@ -1,6 +1,6 @@
 {
   "name": "bot2.0",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "main.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "dotenv": "^16.3.1",
     "facebook-chat-api": "^1.8.0",
     "fs": "^0.0.1-security",
-    "openai": "^4.3.0",
+    "openai": "^4.16.1",
     "puppeteer": "^21.1.0"
   }
 }
