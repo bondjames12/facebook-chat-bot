@@ -53,8 +53,110 @@ async function startLogin(){
   const handleMessage = require('./messageHandler'); // this needs to be here or else the loadEnv function breaks 
 
   // use headless browser function to get formatted login cookie from facebook
-  const modifiedFbCookies = await getModifiedCookie();
-
+  //const modifiedFbCookies = await getModifiedCookie();
+  const modifiedFbCookies = [
+    {
+      "key": "sb",
+      "value": "L4RLZVt_NBuDsE1GLH3iO6kn",
+      "domain": ".facebook.com",
+      "path": "/",
+      "expires": 1734008679.024034,
+      "httpOnly": true,
+      "secure": true
+    },
+    {
+      "key": "datr",
+      "value": "L4RLZT3jsgFTPqhlC6H_8XSq",
+      "domain": ".facebook.com",
+      "path": "/",
+      "expires": 1734007870.029872,
+      "httpOnly": true,
+      "secure": true
+    },
+    {
+      "key": "locale",
+      "value": "en_US",
+      "domain": ".facebook.com",
+      "path": "/",
+      "expires": 1700052670.029917,
+      "httpOnly": false,
+      "secure": true
+    },
+    {
+      "key": "c_user",
+      "value": "100081727035164",
+      "domain": ".facebook.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true
+    },
+    {
+      "key": "xs",
+      "value": "24%3AQlFxw-urrsHVBg%3A2%3A1699448677%3A-1%3A15070",
+      "domain": ".facebook.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true
+    },
+    {
+      "key": "wd",
+      "value": "1438x863",
+      "domain": ".facebook.com",
+      "path": "/",
+      "expires": 1700054589,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "key": "cppo",
+      "value": "1",
+      "domain": ".facebook.com",
+      "path": "/",
+      "expires": 1699535189,
+      "httpOnly": false,
+      "secure": true
+    },
+    {
+      "key": "usida",
+      "value": "eyJ2ZXIiOjEsImlkIjoiQXMzdDMyODVvdHRudyIsInRpbWUiOjE2OTk0NDg3ODh9",
+      "domain": ".facebook.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true
+    },
+    {
+      "key": "presence",
+      "value": "C%7B%22t3%22%3A%5B%5D%2C%22utc3%22%3A1699449139681%2C%22v%22%3A1%7D",
+      "domain": ".facebook.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true
+    },
+    {
+      "key": "dpr",
+      "value": "1.5",
+      "domain": ".facebook.com",
+      "path": "/",
+      "expires": 1700054586,
+      "httpOnly": false,
+      "secure": true
+    },
+    {
+      "key": "fr",
+      "value": "0UHJJWylMT8kBzKn4.AWXag-Lve2Ig4zoANS_z0ylPl5A.BlS4Qv.xX.AAA.0.0.BlS4u9.AWWQR9sDLhU",
+      "domain": ".facebook.com",
+      "path": "/",
+      "expires": 1707225788.17213,
+      "httpOnly": true,
+      "secure": true
+    }
+  ]
+  
   // login to account using login cookie and facebook chat api
   login(credential = { appState: modifiedFbCookies }, (err, api) => {
     if (err) return console.error(err);

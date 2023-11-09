@@ -46,29 +46,28 @@ async function handleMessage(api, message) {
         // get sender's name and pass to bot 
         api.getUserInfo(message.senderID, async (err, arr) => {
             if (err) console.error("Error getting user info!")
-            
+
             //Get any photo attachments
             if (message.attachments.length > 0) {
-      // Find the first photo attachment
-      let photoAttachment = message.attachments.find(att => att.type === 'photo');
-      if (photoAttachment) {
-        // Resolve the URL of the photo
-        api.resolvePhotoUrl(photoAttachment.id, (err, url) => {
-          if (err) return console.error(err);
+                // Find the first photo attachment
+                let photoAttachment = message.attachments.find(att => att.type === 'photo');
+                if (photoAttachment) {
+                    // Resolve the URL of the photo
+                    api.resolvePhotoUrl(photoAttachment.id, async (err, url) => {
+                        if (err) return console.error(err);
 
-          // Download and encode the photo to base64
-          encodeBase64(url, (err, base64Photo) => {
-            if (err) return console.error(err);
+                        // Download and encode the photo to base64
+                        encodeBase64(url, async (err, base64Photo) => {
+                            if (err) return console.error(err);
 
-            // Log the base64 string or handle it as needed
-            response = await chatBot.smartBot(message.body, arr[message.senderID].name, nickName, trigger, message.threadID, base64Photo);
-          });
-        });
-      }
-    } else
-{ 
-            response = await chatBot.smartBot(message.body, arr[message.senderID].name, nickName, trigger, message.threadID, '');
-}
+                            // Log the base64 string or handle it as needed
+                            response = await chatBot.smartBot(message.body, arr[message.senderID].name, nickName, trigger, message.threadID, base64Photo);
+                        });
+                    });
+                }
+            } else {
+                response = await chatBot.smartBot(message.body, arr[message.senderID].name, nickName, trigger, message.threadID, '');
+            }
             // send AI reply/response to thread, resetting the trigger variable on callback and sending as a message_reply
             api.sendMessage(response, message.threadID, () => {
                 trigger = false;
@@ -89,7 +88,7 @@ async function handleMessage(api, message) {
 
         let explainOutput = [];
         for (let i = 0; i < result.explanation.length; i++) {
-          explainOutput.push((i + 1) + ". " + result.explanation[i] + "\n");
+            explainOutput.push((i + 1) + ". " + result.explanation[i] + "\n");
         }
 
         api.sendMessage(result.result.toString() + (explainOutput.length == 0 ? "" : "\n\nSteps:\n" + explainOutput.join("")), message.threadID, message.messageID);

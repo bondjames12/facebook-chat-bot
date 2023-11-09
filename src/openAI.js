@@ -175,7 +175,7 @@ threadState.promptArray.push({
 
         // send prompt array to openAI
         const reply = await openai.chat.completions.create({
-            model: "gpt-4-vision-preview",
+            model: "gpt-4-1106-preview",
             messages: threadState.promptArray,
             max_tokens: 2000,
             temperature: 1,
